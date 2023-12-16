@@ -1,18 +1,12 @@
-import gpg from "gpg";
+import { KeysResponse } from "../utils/ResponseParsers";
+import { invokeTauriCommand } from "./invokeTauriCommand";
 
-export const getPrivateKeys = async (): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    try {
-      gpg.call("", ["-K"], (error: object, privateKeys: string) => {
-        if (error) {
-          console.error(error);
-          reject(error);
-        }
-        resolve(privateKeys.toString());
-      });
-    } catch (e) {
-      console.error(e);
-      reject(e);
-    }
-  });
+export const getPrivateKeys = async (): Promise<KeysResponse> => {
+  const output: string = await invokeTauriCommand("get_private_keys").catch(
+    (error: any) => console.error(error),
+  );
+  return {
+    status: 200,
+    keys: output,
+  };
 };

@@ -9,12 +9,14 @@ export type KeysResponse = {
 const parseResponseBody = (keys: string): { keys: any[]; ringPath: string } => {
   const parsedKeys: any[] = [];
   const splitKeys = keys.split("\n");
+  console.log(splitKeys);
   let keyColorIndex = 0;
   for (let i = 2; i < splitKeys.length; i++) {
     const metaLine = splitKeys[i].split(" ");
-    if (metaLine[0] !== "sec" && metaLine[0] !== "pub") continue;
-    const keyType = metaLine[3] || "unknown";
-    const createdDate = metaLine[4] || "unknown";
+    if (metaLine[0].indexOf("sec") === -1 || metaLine[0].indexOf("pub") === -1) continue;
+    const keyType = metaLine[2] || "unknown";
+    // console.log(keyType);
+    const createdDate = metaLine[3] || "unknown";
     const fingerprint = splitKeys[i + 1]?.trim();
     const userIdLine = splitKeys[i + 2].split(" ");
     const userId = userIdLine[userIdLine.length - 1] || "unknown";

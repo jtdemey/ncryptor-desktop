@@ -21,6 +21,8 @@ import NavBar from "../Nav/NavBar";
 import InfoBtn from "../Nav/InfoBtn";
 import ViewRouter from "./ViewRouter";
 import { executeFetch } from "../../client/ApiClient";
+import useCommandResult from "../../hooks/useCommandResult";
+import { getPrivateKeys } from "../../services/getPrivateKeysService";
 
 /*
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
@@ -65,20 +67,18 @@ const NcryptorApp = (): JSX.Element => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const dispatchSetError = (message: string) => dispatch(setErrorText(message));
   const dispatchSetView = (view: AppViews) => dispatch(setView(view));
-  const refreshPrivateKeys = (cb?: Function): void => {
-    executeFetch("getprivatekeys")
-      .then((response: Response) => response.json())
-      .then((result: KeysResponse) => {
-        const parsedKeys = parsePrivateKeysResponse(
-          result,
-          dispatchSetError
-        ).keys;
-        dispatch(setPrivateKeys(parsedKeys));
-        dispatch(setCurrentUser(parsedKeys[0].userId));
-        cb && cb();
-      });
-  };
-  React.useEffect(() => refreshPrivateKeys(), []);
+  const [_, refreshPrivateKeys] = useCommandResult(getPrivateKeys,
+    (e?: Error | undefined) => dispatchSetError(e !== undefined ? e.toString() : ""),
+    (result: KeysResponse) => {
+      console.log(result);
+      const parsedKeys = parsePrivateKeysResponse(
+        result,
+        dispatchSetError
+      ).keys;
+      dispatch(setPrivateKeys(parsedKeys));
+      dispatch(setCurrentUser(parsedKeys[0].userId));
+    });
+  /*
   const refreshContacts = (cb?: Function): void => {
     executeFetch("getpublickeys")
       .then((response: Response) => response.json())
@@ -90,6 +90,8 @@ const NcryptorApp = (): JSX.Element => {
       });
   };
   React.useEffect(() => refreshContacts(), []);
+  */
+  const refreshContacts = () => {};
   const viewRef = React.useRef<HTMLDivElement>(null);
   const setViewAndResetScroll = (view: AppViews) => {
     viewRef?.current?.scrollTo({ top: 0 });
