@@ -35,6 +35,7 @@ type GpgKey = {
   fingerprint: string;
   keyType: string;
   userId: string;
+  validity: string;
 };
 
 export type PrivateKey = GpgKey;
