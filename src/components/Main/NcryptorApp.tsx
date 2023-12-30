@@ -28,7 +28,7 @@ import { getPrivateKeys } from "../../services/getPrivateKeysService";
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
 */
 
-export type PrivateKey = {
+type GpgKey = {
   color: string;
   createdDate: string;
   expirationDate?: string;
@@ -37,14 +37,10 @@ export type PrivateKey = {
   userId: string;
 };
 
-export type PublicKey = {
-  color: string;
-  createdDate: string;
-  expirationDate?: string;
-  fingerprint: string;
-  keyType: string;
+export type PrivateKey = GpgKey;
+
+export type PublicKey = GpgKey | {
   revocationFile: string | undefined;
-  userId: string;
 };
 
 const Container = styled.div`
