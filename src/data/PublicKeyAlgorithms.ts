@@ -1,4 +1,6 @@
 /*
+  From GPG's DETAILS
+
 9.1.  Public-Key Algorithms
 
       ID           Algorithm

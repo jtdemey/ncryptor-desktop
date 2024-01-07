@@ -1,5 +1,7 @@
 import { describe, expect, test } from "vitest";
 import { parseKeyList } from "./KeyListParser";
+import { PrivateKey, PublicKey } from "../components/Main/NcryptorApp";
+import { KeyTypes } from "../data/KeyTypes";
 
 const PRIVATE_KEYS_OUTPUT = `
 sec:u:4096:1:F5D75BE49C0E7D6F:1703455029:::u:::scESC:::+:::23::0:
@@ -87,10 +89,36 @@ fpr:::::::::F69CBC21C56814F3E803518BA0E9186458636922:
 `;
 
 describe("Handles valid gpg output", () => {
-  test("Should parse correct amount of keys", () => {
-    const privateKeysResult= parseKeyList(PRIVATE_KEYS_OUTPUT);
-    const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
-    expect(privateKeysResult.length).toBe(2);
+  test("Should parse correct amount of public keys", () => {
+    const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT).filter(
+      (key: PrivateKey | PublicKey) => key.keyType === KeyTypes.pub,
+    );
     expect(publicKeysResult.length).toBe(6);
+  });
+
+  test("Should parse correct amount of public subkeys", () => {
+    const publicSubkeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT).filter(
+      (key: PrivateKey | PublicKey) => key.keyType === KeyTypes.sub,
+    );
+    expect(publicSubkeysResult.length).toBe(18);
+  });
+
+  test("Should parse correct amount of private keys", () => {
+    const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT).filter(
+      (key: PrivateKey | PublicKey) => key.keyType === KeyTypes.sec,
+    );
+    expect(privateKeysResult.length).toBe(2);
+  });
+
+  test("Should parse correct amount of private subkeys", () => {
+    const privateSubkeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT).filter(
+      (key: PrivateKey | PublicKey) => key.keyType === KeyTypes.ssb,
+    );
+    expect(privateSubkeysResult.length).toBe(4);
+  });
+
+  test("Should parse correct bitLength", () => {
+    const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT);
+    const publicSubkeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
   });
 });

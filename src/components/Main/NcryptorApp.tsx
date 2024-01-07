@@ -28,19 +28,27 @@ import { getPrivateKeys } from "../../services/getPrivateKeysService";
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
 */
 
+export type UserId = {
+  email: string;
+  name: string;
+};
+
 type GpgKey = {
+  bitLength: number;
   color: string;
   createdDate: string;
   expirationDate?: string;
   fingerprint: string;
+  keyCapabilities: string;
   keyType: string;
-  userId: string;
+  publicKeyAlgorithm: string;
+  userIds: UserId[];
   validity: string;
 };
 
 export type PrivateKey = GpgKey;
 
-export type PublicKey = GpgKey | {
+export type PublicKey = GpgKey & {
   revocationFile: string | undefined;
 };
 
