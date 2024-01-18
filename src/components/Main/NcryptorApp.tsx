@@ -7,22 +7,16 @@ import {
   setErrorText,
   setPrivateKeys,
   setPublicKeys,
-  setView
+  setView,
 } from "../../state/Actions";
 import { initialState, reducer } from "../../state/Reducer";
-import {
-  KeysResponse,
-  parsePrivateKeysResponse,
-  parsePublicKeysResponse
-} from "../../utils/ResponseParsers";
 import ErrorNotification from "../Error/ErrorNotification";
 import Header from "../Header/Header";
 import NavBar from "../Nav/NavBar";
 import InfoBtn from "../Nav/InfoBtn";
 import ViewRouter from "./ViewRouter";
-import { executeFetch } from "../../client/ApiClient";
 import useCommandResult from "../../hooks/useCommandResult";
-import { getPrivateKeys } from "../../services/getPrivateKeysService";
+import { GetPrivateKeysResponse, getPrivateKeys } from "../../services/getPrivateKeysService";
 
 /*
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
@@ -41,6 +35,7 @@ type GpgKey = {
   fingerprint: string;
   keyCapabilities: string;
   keyType: string;
+  parentKeyFingerprint?: string;
   publicKeyAlgorithm: string;
   userIds: UserId[];
   validity: string;
@@ -72,17 +67,16 @@ const NcryptorApp = (): JSX.Element => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const dispatchSetError = (message: string) => dispatch(setErrorText(message));
   const dispatchSetView = (view: AppViews) => dispatch(setView(view));
-  const [_, refreshPrivateKeys] = useCommandResult(getPrivateKeys,
-    (e?: Error | undefined) => dispatchSetError(e !== undefined ? e.toString() : ""),
-    (result: KeysResponse) => {
+  const [_, refreshPrivateKeys] = useCommandResult(
+    getPrivateKeys,
+    (e?: Error | undefined) =>
+      dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
+    (result: GetPrivateKeysResponse) => {
       console.log(result);
-      const parsedKeys = parsePrivateKeysResponse(
-        result,
-        dispatchSetError
-      ).keys;
-      dispatch(setPrivateKeys(parsedKeys));
-      dispatch(setCurrentUser(parsedKeys[0].userId));
-    });
+      dispatch(setPrivateKeys(result.keys));
+      dispatch(setCurrentUser(result.keys[0].userIds[0].name));
+    },
+  );
   /*
   const refreshContacts = (cb?: Function): void => {
     executeFetch("getpublickeys")

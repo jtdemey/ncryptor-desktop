@@ -12,7 +12,8 @@ const parseResponseBody = (keys: string): { keys: any[]; ringPath: string } => {
   let keyColorIndex = 0;
   for (let i = 2; i < splitKeys.length; i++) {
     const metaLine = splitKeys[i].split(" ");
-    if (metaLine[0].indexOf("sec") === -1 || metaLine[0].indexOf("pub") === -1) continue;
+    if (metaLine[0].indexOf("sec") === -1 || metaLine[0].indexOf("pub") === -1)
+      continue;
     const keyType = metaLine[2] || "unknown";
     const createdDate = metaLine[3] || "unknown";
     const fingerprint = splitKeys[i + 1]?.trim();
@@ -26,19 +27,19 @@ const parseResponseBody = (keys: string): { keys: any[]; ringPath: string } => {
       createdDate,
       fingerprint,
       keyType,
-      userId
+      userId,
     });
     i += 3;
   }
   return {
     keys: parsedKeys,
-    ringPath: splitKeys[0]
+    ringPath: splitKeys[0],
   };
 };
 
 const handleGetKeysResponse = (
   { status, keys }: KeysResponse,
-  setErrorText: Function
+  setErrorText: Function,
 ): { keys: any[]; ringPath: string } => {
   if (status !== 200) {
     const errText = `Error ${status} getting private keys from keyring`;
@@ -51,16 +52,19 @@ const handleGetKeysResponse = (
   const parsedKeys = parseResponseBody(keys);
   return {
     keys: sortKeysByUserId(parsedKeys.keys),
-    ringPath: parsedKeys.ringPath
+    ringPath: parsedKeys.ringPath,
   };
 };
 
-const sortKeysByUserId = (keys: PrivateKey[] | PublicKey[]): any[] =>
+const sortKeysByUserId = (
+  keys: PrivateKey[] | PublicKey[],
+  userIdIndex: number = 0,
+): any[] =>
   keys.sort((currentKey, nextKey) => {
-    if (currentKey.userId < nextKey.userId) {
+    if (currentKey.userIds[userIdIndex] < nextKey.userIds[userIdIndex]) {
       return -1;
     }
-    if (currentKey.userId > nextKey.userId) {
+    if (currentKey.userIds[userIdIndex] > nextKey.userIds[userIdIndex]) {
       return 1;
     }
     return 0;
@@ -68,12 +72,12 @@ const sortKeysByUserId = (keys: PrivateKey[] | PublicKey[]): any[] =>
 
 export const parsePrivateKeysResponse = (
   { status, keys }: KeysResponse,
-  setErrorText: Function
+  setErrorText: Function,
 ): { keys: Array<PrivateKey>; ringPath: string } =>
   handleGetKeysResponse({ status, keys }, setErrorText);
 
 export const parsePublicKeysResponse = (
   { status, keys }: KeysResponse,
-  setErrorText: Function
+  setErrorText: Function,
 ): { keys: Array<PublicKey>; ringPath: string } =>
   handleGetKeysResponse({ status, keys }, setErrorText);

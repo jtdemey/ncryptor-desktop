@@ -2,28 +2,39 @@ import { PrivateKey, PublicKey } from "../components/Main/NcryptorApp";
 import { KeyTypes } from "../data/KeyTypes";
 import { KeypairColors } from "../data/KeypairColors";
 
+const addKeyFromRow = (
+  keys: (PrivateKey | PublicKey)[],
+  row: string[],
+  currentParentKey: PrivateKey | PublicKey,
+): void => {
+  const keyColor = KeypairColors[keys.length % KeypairColors.length].value;
+  const isSubkey = row[0] === "ssb" || row[0] === "sub";
+  keys.push({
+    bitLength: parseInt(row[2]),
+    color: keyColor,
+    createdDate: row[5],
+    expirationDate: row[6],
+    fingerprint: "",
+    keyCapabilities: row[11],
+    keyType: KeyTypes[row[0]],
+    parentKeyFingerprint: isSubkey ? currentParentKey.fingerprint : undefined,
+    publicKeyAlgorithm: row[3],
+    userIds: isSubkey ? currentParentKey.userIds : [],
+    validity: row[1],
+  });
+};
+
 export const parseRow = (
   delimitedRow: string[],
   keysToCreate: (PrivateKey | PublicKey)[],
 ): void => {
   const recognizedKeyTypes = Object.keys(KeyTypes);
-  const currentKey = keysToCreate[keysToCreate.length - 1];
+  const parentKeys = keysToCreate.filter(key => key.keyType === KeyTypes.pub || key.keyType === KeyTypes.sec);
+  const currentParentKey = parentKeys[parentKeys.length - 1];
   if (recognizedKeyTypes.includes(delimitedRow[0])) {
-    const keyColor =
-      KeypairColors[keysToCreate.length % KeypairColors.length].value;
-    keysToCreate.push({
-      bitLength: parseInt(delimitedRow[2]),
-      color: keyColor,
-      createdDate: delimitedRow[5],
-      expirationDate: delimitedRow[6],
-      fingerprint: "",
-      keyCapabilities: delimitedRow[11],
-      keyType: KeyTypes[delimitedRow[0]],
-      publicKeyAlgorithm: delimitedRow[3],
-      userIds: [],
-      validity: delimitedRow[1],
-    });
+    addKeyFromRow(keysToCreate, delimitedRow, currentParentKey);
   }
+  const currentKey = keysToCreate[keysToCreate.length - 1];
   if (delimitedRow[0] === "fpr") {
     currentKey.fingerprint = delimitedRow[9];
   }

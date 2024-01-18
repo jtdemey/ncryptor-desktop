@@ -117,8 +117,61 @@ describe("Handles valid gpg output", () => {
     expect(privateSubkeysResult.length).toBe(4);
   });
 
-  test("Should parse correct bitLength", () => {
+  test("Should parse correct validities", () => {
+    const expectedPublicKeyValidities: string[] = [
+      "-",
+      "-",
+      "-",
+      "-",
+      "e",
+      "e",
+      "r",
+      "e",
+      "r",
+      "r",
+      "-",
+      "-",
+      "-",
+      "-",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+      "u",
+    ];
     const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT);
-    const publicSubkeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
+    const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
+    privateKeysResult.forEach((privateKey) => {
+      expect(privateKey.validity).toBe("u");
+    });
+    for (let i = 0; i < publicKeysResult.length; i++) {
+      expect(publicKeysResult[i].validity).toBe(expectedPublicKeyValidities[i]);
+    }
+  });
+
+  test("Subkeys should get parent's userIds", () => {
+    const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT);
+    const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
+    let currentPrivateKey: PrivateKey;
+    privateKeysResult.forEach(privateKey => {
+      if (privateKey.keyType === KeyTypes.sec) {
+        currentPrivateKey = privateKey;
+        return;
+      }
+      expect(privateKey.parentKeyFingerprint).toBe(currentPrivateKey.fingerprint);
+    });
+    let currentPublicKey: any;
+    publicKeysResult.forEach(publicKey => {
+      if (publicKey.keyType === KeyTypes.pub) {
+        currentPublicKey = publicKey;
+        return;
+      }
+      expect(publicKey.parentKeyFingerprint).toBe(currentPublicKey.fingerprint);
+    });
   });
 });
