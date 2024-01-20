@@ -33,6 +33,7 @@ type GpgKey = {
   createdDate: string;
   expirationDate?: string;
   fingerprint: string;
+  isDisabled: boolean;
   keyCapabilities: string;
   keyType: string;
   parentKeyFingerprint?: string;

@@ -15,6 +15,7 @@ const addKeyFromRow = (
     createdDate: row[5],
     expirationDate: row[6],
     fingerprint: "",
+    isDisabled: row[11].includes("d"),
     keyCapabilities: row[11],
     keyType: KeyTypes[row[0]],
     parentKeyFingerprint: isSubkey ? currentParentKey.fingerprint : undefined,
