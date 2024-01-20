@@ -11,17 +11,17 @@ type SenderSelectionProps = {
 const SenderSelection = ({
   currentUser,
   privateKeys,
-  setCurrentUser
+  setCurrentUser,
 }: SenderSelectionProps): JSX.Element => {
-  const userIds: [string, string][] = privateKeys.map((key: PrivateKey) => [
+  const displayNames: [string, string][] = privateKeys.map((key: PrivateKey) => [
     key.fingerprint.substring(
       key.fingerprint.length - 8,
-      key.fingerprint.length
+      key.fingerprint.length,
     ),
-    key.userId
+    key.userIds[0].name,
   ]);
-  const [dropdownSelections, setDropdownSelections] = React.useState(userIds);
-  React.useEffect(() => setDropdownSelections(userIds), [privateKeys]);
+  const [dropdownSelections, setDropdownSelections] = React.useState(displayNames);
+  React.useEffect(() => setDropdownSelections(displayNames), [privateKeys]);
   return (
     <Dropdown
       selections={dropdownSelections}

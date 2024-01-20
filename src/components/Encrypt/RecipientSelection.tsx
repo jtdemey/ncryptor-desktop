@@ -13,15 +13,15 @@ const RecipientSelection = ({
   publicKeys,
   setRecipient
 }: RecipientSelectionProps): JSX.Element => {
-  const userIds: [string, string][] = publicKeys.map((key: PublicKey) => [
+  const displayNames: [string, string][] = publicKeys.map((key: PublicKey) => [
     key.fingerprint.substring(
       key.fingerprint.length - 8,
       key.fingerprint.length
     ),
-    key.userId
+    key.userIds[0].name
   ]);
-  const [dropdownSelections, setDropdownSelections] = React.useState(userIds);
-  React.useEffect(() => setDropdownSelections(userIds), [publicKeys]);
+  const [dropdownSelections, setDropdownSelections] = React.useState(displayNames);
+  React.useEffect(() => setDropdownSelections(displayNames), [publicKeys]);
   return (
     <Dropdown
       selections={dropdownSelections}
