@@ -15,7 +15,7 @@ const SenderSelection = ({
   return (
     <UserDropdownSelection
       currentSelection={currentUser}
-      keys={privateKeys}
+      keys={privateKeys.filter((key: PrivateKey) => key.capabilities.includes("e"))}
       setSelection={setCurrentUser}
     />
   );

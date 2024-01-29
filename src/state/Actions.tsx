@@ -37,7 +37,7 @@ export const setPrivateKeys = (keys: PrivateKey[]): AppAction => ({
   payload: keys
 });
 
-export const setPublicKeys = (keys: PublicKey[]): AppAction => ({
+export const setPublicKeys = (keys: (PrivateKey | PublicKey)[]): AppAction => ({
   type: ActionNames.SetPublicKeys,
   payload: keys
 });

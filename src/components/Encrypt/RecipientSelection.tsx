@@ -15,7 +15,7 @@ const RecipientSelection = ({
   return (
     <UserDropdownSelection
       currentSelection={recipient}
-      keys={publicKeys}
+      keys={publicKeys.filter((key: PublicKey) => key.capabilities.includes("e"))}
       setSelection={setRecipient}
     />
   );

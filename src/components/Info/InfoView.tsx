@@ -44,7 +44,7 @@ const InfoView = (): JSX.Element => {
           Ncryptor Desktop v1.0
           <br />
           by <a href="https://www.johntorsten.com">John Torsten</a>
-          <br />© 2023
+          <br />© 2024
         </MetaBox>
         <Text {...animationProps}>
           {gpgVersionText}

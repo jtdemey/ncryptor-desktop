@@ -4,7 +4,7 @@ import { executeFetch } from "../../client/ApiClient";
 
 export type SubmitBtnProps = {
   currentUser: string;
-  endpoint: string;
+  serviceName: string;
   label: string;
   recipient?: string;
   setText: Function;
@@ -27,7 +27,7 @@ const Button = styled.div`
 
 const SubmitBtn = ({
   currentUser,
-  endpoint,
+  serviceName,
   label,
   recipient,
   setText,
@@ -36,7 +36,7 @@ const SubmitBtn = ({
   const [loading, setLoading] = React.useState(false);
   const clickFunc = () => {
     setLoading(true);
-    executeFetch(endpoint, { recipient, text, userId: currentUser })
+    executeFetch(serviceName, { recipient, text, userId: currentUser })
       .then((response: Response) => response.json())
       .then(result => {
         setLoading(false);

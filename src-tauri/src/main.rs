@@ -21,11 +21,21 @@ fn get_private_keys() -> String {
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
 
+#[tauri::command]
+fn get_public_keys() -> String {
+    let output = Command::new("gpg")
+        .args(["-k", "--with-colons"])
+        .output()
+        .expect("failed to get public keys output");
+    return format!("{}", String::from_utf8_lossy(&output.stdout));
+}
+
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             get_gpg_version,
-            get_private_keys
+            get_private_keys,
+            get_public_keys
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

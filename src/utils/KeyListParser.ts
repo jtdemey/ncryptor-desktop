@@ -11,12 +11,12 @@ const addKeyFromRow = (
   const isSubkey = row[0] === "ssb" || row[0] === "sub";
   keys.push({
     bitLength: parseInt(row[2]),
+    capabilities: row[11],
     color: keyColor,
     createdDate: row[5],
     expirationDate: row[6],
     fingerprint: "",
     isDisabled: row[11].includes("d"),
-    keyCapabilities: row[11],
     keyType: KeyTypes[row[0]],
     parentKeyFingerprint: isSubkey ? currentParentKey.fingerprint : undefined,
     publicKeyAlgorithm: row[3],

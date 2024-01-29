@@ -24,14 +24,20 @@ const EncryptView = ({
   currentUser,
   privateKeys,
   publicKeys,
-  setCurrentUser
+  setCurrentUser,
 }: EncryptViewProps): JSX.Element => {
-  const [recipient, setRecipient] = React.useState("");
+  const [recipient, setRecipient] = React.useState(
+    publicKeys.length ? publicKeys[0].userIds[0].name : "",
+  );
+  React.useEffect(
+    () => setRecipient(publicKeys.length ? publicKeys[0].userIds[0].name : ""),
+    [publicKeys, setRecipient],
+  );
   const senderFingerprint = privateKeys.filter(
-    (key: PrivateKey) => key.userIds[0].name === currentUser
+    (key: PrivateKey) => key.userIds[0].name === currentUser,
   )[0]?.fingerprint;
   const recipientFingerprint = publicKeys.filter(
-    (key: PublicKey) => key.userIds[0].name === recipient
+    (key: PublicKey) => key.userIds[0].name === recipient,
   )[0]?.fingerprint;
   return (
     <SectionCard>

@@ -16,7 +16,8 @@ import NavBar from "../Nav/NavBar";
 import InfoBtn from "../Nav/InfoBtn";
 import ViewRouter from "./ViewRouter";
 import useCommandResult from "../../hooks/useCommandResult";
-import { GetPrivateKeysResponse, getPrivateKeys } from "../../services/getPrivateKeysService";
+import { GetPrivateKeysResponse, getPrivateKeys } from "../../services/getPrivateKeys";
+import { GetPublicKeysResponse, getPublicKeys } from "../../services/getPublicKeys";
 
 /*
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
@@ -27,14 +28,14 @@ export type UserId = {
   name: string;
 };
 
-type GpgKey = {
+export type PrivateKey = {
   bitLength: number;
+  capabilities: string;
   color: string;
   createdDate: string;
   expirationDate?: string;
   fingerprint: string;
   isDisabled: boolean;
-  keyCapabilities: string;
   keyType: string;
   parentKeyFingerprint?: string;
   publicKeyAlgorithm: string;
@@ -42,9 +43,7 @@ type GpgKey = {
   validity: string;
 };
 
-export type PrivateKey = GpgKey;
-
-export type PublicKey = GpgKey & {
+export type PublicKey = PrivateKey & {
   revocationFile: string | undefined;
 };
 
@@ -73,25 +72,18 @@ const NcryptorApp = (): JSX.Element => {
     (e?: Error | undefined) =>
       dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
     (result: GetPrivateKeysResponse) => {
-      console.log(result);
       dispatch(setPrivateKeys(result.keys));
       dispatch(setCurrentUser(result.keys[0].userIds[0].name));
     },
   );
-  /*
-  const refreshContacts = (cb?: Function): void => {
-    executeFetch("getpublickeys")
-      .then((response: Response) => response.json())
-      .then((result: KeysResponse) => {
-        dispatch(
-          setPublicKeys(parsePublicKeysResponse(result, dispatchSetError).keys)
-        );
-        cb && cb();
-      });
-  };
-  React.useEffect(() => refreshContacts(), []);
-  */
-  const refreshContacts = () => {};
+  const [__, refreshPublicKeys] = useCommandResult(
+    getPublicKeys,
+    (e?: Error | undefined) =>
+      dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
+    (result: GetPublicKeysResponse) => {
+      dispatch(setPublicKeys(result.keys));
+    },
+  );
   const viewRef = React.useRef<HTMLDivElement>(null);
   const setViewAndResetScroll = (view: AppViews) => {
     viewRef?.current?.scrollTo({ top: 0 });
@@ -110,7 +102,7 @@ const NcryptorApp = (): JSX.Element => {
         isKeyPrivate={state.isKeyPrivate}
         privateKeys={state.privateKeys}
         publicKeys={state.publicKeys}
-        refreshContacts={refreshContacts}
+        refreshContacts={refreshPublicKeys}
         refreshKeys={refreshPrivateKeys}
         selectKey={(fingerprint: string, isPrivate: boolean) => {
           dispatch(selectKey(fingerprint, isPrivate));

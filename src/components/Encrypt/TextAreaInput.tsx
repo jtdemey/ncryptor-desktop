@@ -5,6 +5,7 @@ import FileInput from "./FileInput";
 import SubmitBtn from "./SubmitBtn";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CopyTextAreaBtn from "./CopyTextAreaBtn";
+import { ChangeEvent, TargetedEvent } from "preact/compat";
 
 type TextAreaInputProps = {
   currentUser: string;
@@ -58,7 +59,7 @@ const TextAreaInput = ({
     <Container>
       <TextArea
         animate={{ x: [-30, 0] }}
-        onChange={e => handleTextChange(e)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleTextChange(e)}
         style={textAreaStyle}
         transition={{ duration: 0.45, ease: "easeOut" }}
         value={text}
@@ -68,7 +69,7 @@ const TextAreaInput = ({
         <CopyTextAreaBtn value={text} visible={text !== ""} />
         <SubmitBtn
           currentUser={currentUser}
-          endpoint={encryptMode ? "encrypt" : "decrypt"}
+          serviceName={encryptMode ? "encrypt" : "decrypt"}
           label={btnText}
           recipient={recipient}
           setText={setText}
