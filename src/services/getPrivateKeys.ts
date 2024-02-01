@@ -11,9 +11,8 @@ export const getPrivateKeys = async (): Promise<GetPrivateKeysResponse> => {
   const output: string = await invokeTauriCommand("get_private_keys").catch(
     (error: any) => console.error(error),
   );
-  const parsedKeys = parseKeyList(output);
   return {
     status: 200,
-    keys: parsedKeys,
+    keys: output ? parseKeyList(output) : [],
   };
 };

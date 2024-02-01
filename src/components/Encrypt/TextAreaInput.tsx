@@ -2,10 +2,9 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import FileInput from "./FileInput";
-import SubmitBtn from "./SubmitBtn";
+import TextAreaSubmitBtn from "./TextAreaSubmitBtn";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CopyTextAreaBtn from "./CopyTextAreaBtn";
-import { ChangeEvent, TargetedEvent } from "preact/compat";
 
 type TextAreaInputProps = {
   currentUser: string;
@@ -45,21 +44,26 @@ const BtnRow = styled.section`
 const TextAreaInput = ({
   currentUser,
   encryptMode,
-  recipient
+  recipient,
 }: TextAreaInputProps): JSX.Element => {
   const dimensions = useWindowDimensions();
   const textAreaStyle = {
-    height: dimensions.height ? dimensions.height - 350 : "40vh"
+    height: dimensions.height ? dimensions.height - 350 : "40vh",
   };
   const [text, setText] = React.useState("");
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setText(e.target.value);
   const btnText = encryptMode ? "Encrypt" : "Decrypt";
+  const serviceParams = encryptMode
+    ? { recipient, sender: currentUser }
+    : { recipient: currentUser };
   return (
     <Container>
       <TextArea
         animate={{ x: [-30, 0] }}
-        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleTextChange(e)}
+        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+          handleTextChange(e)
+        }
         style={textAreaStyle}
         transition={{ duration: 0.45, ease: "easeOut" }}
         value={text}
@@ -67,11 +71,10 @@ const TextAreaInput = ({
       <BtnRow>
         <FileInput setText={setText} />
         <CopyTextAreaBtn value={text} visible={text !== ""} />
-        <SubmitBtn
-          currentUser={currentUser}
+        <TextAreaSubmitBtn
           serviceName={encryptMode ? "encrypt" : "decrypt"}
+          serviceParams={serviceParams}
           label={btnText}
-          recipient={recipient}
           setText={setText}
           text={text}
         />
