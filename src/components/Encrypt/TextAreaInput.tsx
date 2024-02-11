@@ -10,6 +10,7 @@ type TextAreaInputProps = {
   currentUser: string;
   encryptMode: boolean;
   recipient?: string;
+  service: () => any;
 };
 
 const Container = styled.div`
@@ -45,6 +46,7 @@ const TextAreaInput = ({
   currentUser,
   encryptMode,
   recipient,
+  service,
 }: TextAreaInputProps): JSX.Element => {
   const dimensions = useWindowDimensions();
   const textAreaStyle = {
@@ -76,6 +78,7 @@ const TextAreaInput = ({
           serviceParams={serviceParams}
           label={btnText}
           setText={setText}
+          service={service}
           text={text}
         />
       </BtnRow>

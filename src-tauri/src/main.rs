@@ -21,6 +21,10 @@ fn decrypt(recipient: String) -> String {
 
 #[tauri::command]
 fn encrypt(sender: String, recipient: String) -> String {
+    let other_output = Command::new("pwd")
+        .output()
+        .expect("failed to encrypt string");
+    println!("{}", String::from_utf8_lossy(&other_output.stdout));
     let output = Command::new("gpg")
         .args([
             "--encrypt",

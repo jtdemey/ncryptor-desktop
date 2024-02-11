@@ -5,6 +5,7 @@ import { invokeTauriCommand } from "../../services/invokeTauriCommand";
 type TextAreaSubmitBtnProps = {
   serviceName: string;
   serviceParams: any;
+  service: () => Promise<any>;
   label: string;
   setText: Function;
   text: string;
@@ -28,6 +29,7 @@ const TextAreaSubmitBtn = ({
   serviceName,
   serviceParams,
   label,
+  service,
   setText,
   text,
 }: TextAreaSubmitBtnProps): JSX.Element => {
