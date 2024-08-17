@@ -1,6 +1,6 @@
 import { invokeTauriCommand } from "./invokeTauriCommand";
 
-export const getGpgVersion = async (): Promise<any> => {
+export const getGpgVersion = async (): Promise<string> => {
   const output: string = await invokeTauriCommand("get_gpg_version").catch(
     (error: any) => console.error(error),
   );

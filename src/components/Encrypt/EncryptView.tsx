@@ -1,4 +1,5 @@
 import React from "react";
+// @ts-ignore TS7016
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import TextAreaInput from "./TextAreaInput";
@@ -67,6 +68,7 @@ const EncryptView = ({
         currentUser={senderFingerprint || "unknown"}
         encryptMode={true}
         recipient={recipientFingerprint || "unknown"}
+        service={() => {}}
       />
     </SectionCard>
   );

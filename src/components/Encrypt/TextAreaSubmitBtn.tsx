@@ -1,14 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-import { invokeTauriCommand } from "../../services/invokeTauriCommand";
 
 type TextAreaSubmitBtnProps = {
-  serviceName: string;
-  serviceParams: any;
   service: () => Promise<any>;
   label: string;
   setText: Function;
-  text: string;
 };
 
 const Button = styled.div`
@@ -26,19 +22,13 @@ const Button = styled.div`
 `;
 
 const TextAreaSubmitBtn = ({
-  serviceName,
-  serviceParams,
   label,
   service,
   setText,
-  text,
 }: TextAreaSubmitBtnProps): JSX.Element => {
   const [loading, setLoading] = React.useState(false);
   const clickFunc = async () =>
-    invokeTauriCommand(serviceName, {
-      ...serviceParams,
-      text,
-    }).then((result: string) => {
+    service().then((result: string) => {
       console.log(result);
       setLoading(false);
       setText(result);

@@ -1,4 +1,4 @@
-import React from "react";
+// @ts-ignore TS7016
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import TextAreaInput from "../Encrypt/TextAreaInput";
@@ -24,7 +24,7 @@ const DecryptView = ({
   setCurrentUser
 }: DecryptViewProps): JSX.Element => {
   const recipientFingerprint = privateKeys.filter(
-    (key: PrivateKey) => key.userId === currentUser
+    (key: PrivateKey) => key.userIds[0].name === currentUser
   )[0]?.fingerprint;
   return (
     <SectionCard>

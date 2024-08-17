@@ -5,6 +5,8 @@ import FileInput from "./FileInput";
 import TextAreaSubmitBtn from "./TextAreaSubmitBtn";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CopyTextAreaBtn from "./CopyTextAreaBtn";
+import { encryptMessage } from "../../services/encryptMessage";
+import { decryptMessage } from "../../services/decryptMessage";
 
 type TextAreaInputProps = {
   currentUser: string;
@@ -59,6 +61,9 @@ const TextAreaInput = ({
   const serviceParams = encryptMode
     ? { recipient, sender: currentUser }
     : { recipient: currentUser };
+  const callService = encryptMode
+    ? () => encryptMessage(text)
+    : () => decryptMessage(text);
   return (
     <Container>
       <TextArea
@@ -74,8 +79,6 @@ const TextAreaInput = ({
         <FileInput setText={setText} />
         <CopyTextAreaBtn value={text} visible={text !== ""} />
         <TextAreaSubmitBtn
-          serviceName={encryptMode ? "encrypt" : "decrypt"}
-          serviceParams={serviceParams}
           label={btnText}
           setText={setText}
           service={service}
