@@ -38,7 +38,7 @@ const ContactsList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{getDisplayUserId(contact.userId)}</UserIdLabel>
+              <UserIdLabel>{getDisplayUserId(contact.userIds[0].name)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(contact.fingerprint)}
               </KeyThumbprint>
