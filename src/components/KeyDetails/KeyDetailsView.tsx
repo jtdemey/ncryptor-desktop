@@ -77,7 +77,7 @@ const KeyDetailsView = ({
             color={currentKey.color}
             labelText="User ID"
             showCopyBtn={true}
-            valueText={currentKey.userId}
+            valueText={currentKey.userIds[0].name}
           />
           <KeyDetailsGroup
             animationDelay={0.1}

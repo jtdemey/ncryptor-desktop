@@ -15,7 +15,31 @@ fn decrypt(recipient: String) -> String {
             "always"
         ])
         .output()
-        .expect("failed to encrypt string");
+        .expect("failed to decrypt string");
+    return format!("{}", String::from_utf8_lossy(&output.stdout));
+}
+
+#[tauri::command]
+fn delete_private_key(user_name: String) -> String {
+    let output = Command::new("gpg")
+        .args([
+            "--delete-secret-key",
+            &user_name
+        ])
+        .output()
+        .expect("failed to delete private key");
+    return format!("{}", String::from_utf8_lossy(&output.stdout));
+}
+
+#[tauri::command]
+fn delete_public_key(user_name: String) -> String {
+    let output = Command::new("gpg")
+        .args([
+            "--delete-key",
+            &user_name
+        ])
+        .output()
+        .expect("failed to delete public key");
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
 

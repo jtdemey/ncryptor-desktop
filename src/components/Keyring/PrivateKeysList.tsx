@@ -1,4 +1,4 @@
-import React from "react";
+// @ts-ignore
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import KeysListLegend from "./KeysListLegend";
@@ -77,7 +77,7 @@ const PrivateKeysList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(privateKey.userId, 9)}</UserIdLabel>
+              <UserIdLabel>{applyEllipsis(privateKey.userIds[0].name, 9)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(privateKey.fingerprint)}
               </KeyThumbprint>
