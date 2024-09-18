@@ -31,8 +31,8 @@ const Select = styled(motion.select)`
   background: #203031;
   border: 1px solid #222;
   box-shadow: -3px 3px 8px #222;
-  color: #cad2c5;
-  font-family: "Lora", serif;
+  color: #0f0f0f;
+  font-family: "Lato", sans-serif;
   font-size: 1.1rem;
   outline: none;
 

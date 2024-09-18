@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+use std::fs;
 use std::process::Command;
 
 #[tauri::command]
@@ -44,11 +45,12 @@ fn delete_public_key(user_name: String) -> String {
 }
 
 #[tauri::command]
-fn encrypt(sender: String, recipient: String) -> String {
-    let other_output = Command::new("pwd")
-        .output()
-        .expect("failed to encrypt string");
-    println!("{}", String::from_utf8_lossy(&other_output.stdout));
+fn encrypt(sender: String, recipient: String, text: &str) -> String {
+    let file_write_result = fs::write("foo.txt", text);
+    let written_file = match file_write_result {
+        Ok(file) => println!("ahoy!"),
+        Err(error) => println!("glorp"),
+    };
     let output = Command::new("gpg")
         .args([
             "--encrypt",
@@ -96,6 +98,8 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
             decrypt,
+            delete_private_key,
+            delete_public_key,
             encrypt,
             get_gpg_version,
             get_private_keys,

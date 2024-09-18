@@ -1,4 +1,5 @@
 import React from "react";
+// @ts-ignore TS7016
 import { motion } from "framer-motion";
 import styled from "styled-components";
 

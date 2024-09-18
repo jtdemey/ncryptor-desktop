@@ -12,7 +12,6 @@ type TextAreaInputProps = {
   currentUser: string;
   encryptMode: boolean;
   recipient?: string;
-  service: () => any;
 };
 
 const Container = styled.div`
@@ -48,7 +47,6 @@ const TextAreaInput = ({
   currentUser,
   encryptMode,
   recipient,
-  service,
 }: TextAreaInputProps): JSX.Element => {
   const dimensions = useWindowDimensions();
   const textAreaStyle = {
@@ -62,7 +60,7 @@ const TextAreaInput = ({
     ? { recipient, sender: currentUser }
     : { recipient: currentUser };
   const callService = encryptMode
-    ? () => encryptMessage(text)
+    ? (sender: string, recipient: string) => encryptMessage(sender, recipient, text)
     : () => decryptMessage(text);
   return (
     <Container>
@@ -81,7 +79,7 @@ const TextAreaInput = ({
         <TextAreaSubmitBtn
           label={btnText}
           setText={setText}
-          service={service}
+          service={() => callService(serviceParams)}
           text={text}
         />
       </BtnRow>

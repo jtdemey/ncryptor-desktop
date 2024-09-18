@@ -70,7 +70,6 @@ const EncryptView = ({
         currentUser={senderFingerprint || "unknown"}
         encryptMode={true}
         recipient={recipientFingerprint || "unknown"}
-        service={() => {}}
       />
     </SectionCard>
   );
