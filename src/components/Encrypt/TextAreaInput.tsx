@@ -56,11 +56,8 @@ const TextAreaInput = ({
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setText(e.target.value);
   const btnText = encryptMode ? "Encrypt" : "Decrypt";
-  const serviceParams = encryptMode
-    ? { recipient, sender: currentUser }
-    : { recipient: currentUser };
   const callService = encryptMode
-    ? (sender: string, recipient: string) => encryptMessage(sender, recipient, text)
+    ? () => encryptMessage(currentUser, recipient ?? "", text)
     : () => decryptMessage(text);
   return (
     <Container>
@@ -79,8 +76,7 @@ const TextAreaInput = ({
         <TextAreaSubmitBtn
           label={btnText}
           setText={setText}
-          service={() => callService(serviceParams)}
-          text={text}
+          service={() => callService()}
         />
       </BtnRow>
     </Container>

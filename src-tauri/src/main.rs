@@ -46,25 +46,45 @@ fn delete_public_key(user_name: String) -> String {
 
 #[tauri::command]
 fn encrypt(sender: String, recipient: String, text: &str) -> String {
-    let file_write_result = fs::write("foo.txt", text);
-    let written_file = match file_write_result {
-        Ok(file) => println!("ahoy!"),
-        Err(error) => println!("glorp"),
+
+    match fs::write("m.txt", text) {
+        Ok(file) => file,
+        Err(error) => panic!("{}", error),
     };
-    let output = Command::new("gpg")
+
+    let gpg_output = Command::new("gpg")
         .args([
-            "--encrypt",
+            "-e",
             "--default-key",
             &sender,
             "--recipient",
             &recipient,
             "--armor",
             "--trust-model",
-            "always"
+            "always",
+            "m.txt",
         ])
         .output()
         .expect("failed to encrypt string");
-    return format!("{}", String::from_utf8_lossy(&output.stdout));
+
+    let cat_output = Command::new("cat")
+        .args([
+            "m.txt.asc",
+        ])
+        .output()
+        .expect("failed to get file contents");
+
+    match fs::remove_file("m.txt") {
+        Ok(result) => result,
+        Err(error) => panic!("{}", error),
+    };
+
+    match fs::remove_file("m.txt.asc") {
+        Ok(result) => result,
+        Err(error) => panic!("{}", error),
+    };
+
+    return format!("{}", String::from_utf8_lossy(&cat_output.stdout));
 }
 
 #[tauri::command]
