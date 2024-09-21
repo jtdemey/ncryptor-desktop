@@ -83,7 +83,6 @@ const getView = ({
         <DecryptView
           currentUser={currentUser}
           privateKeys={privateKeys}
-          setCurrentUser={setCurrentUser}
         />
       );
     case AppViews.Keyring:

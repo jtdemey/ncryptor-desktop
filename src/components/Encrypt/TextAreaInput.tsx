@@ -1,4 +1,5 @@
 import React from "react";
+// @ts-ignore
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import FileInput from "./FileInput";
@@ -49,16 +50,18 @@ const TextAreaInput = ({
   recipient,
 }: TextAreaInputProps): JSX.Element => {
   const dimensions = useWindowDimensions();
-  const textAreaStyle = {
-    height: dimensions.height ? dimensions.height - 350 : "40vh",
-  };
   const [text, setText] = React.useState("");
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setText(e.target.value);
+
   const btnText = encryptMode ? "Encrypt" : "Decrypt";
   const callService = encryptMode
     ? () => encryptMessage(currentUser, recipient ?? "", text)
     : () => decryptMessage(text);
+  const textAreaStyle = {
+    height: dimensions.height ? dimensions.height - 350 : "40vh",
+  };
+
   return (
     <Container>
       <TextArea
@@ -66,6 +69,7 @@ const TextAreaInput = ({
         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
           handleTextChange(e)
         }
+        placeholder={encryptMode ? "Enter message" : "Enter PGP encrypted message"}
         style={textAreaStyle}
         transition={{ duration: 0.45, ease: "easeOut" }}
         value={text}

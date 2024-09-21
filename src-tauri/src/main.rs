@@ -5,23 +5,43 @@ use std::fs;
 use std::process::Command;
 
 #[tauri::command]
-fn decrypt(recipient: String) -> String {
-    let output = Command::new("gpg")
+fn decrypt(text: &str) -> String {
+    match fs::write("d.txt.gpg", text) {
+        Ok(file) => file,
+        Err(error) => panic!("{}", error),
+    };
+
+    Command::new("gpg")
         .args([
+            "--output",
+            "d.txt",
             "--decrypt",
-            "--default-key",
-            &recipient,
-            "--armor",
-            "--trust-model",
-            "always"
+            "d.txt.gpg",
         ])
         .output()
         .expect("failed to decrypt string");
-    return format!("{}", String::from_utf8_lossy(&output.stdout));
+
+    let cat_output = Command::new("cat")
+        .args([
+            "d.txt",
+        ])
+        .output()
+        .expect("failed to get file contents");
+
+    match fs::remove_file("d.txt.gpg") {
+        Ok(result) => result,
+        Err(error) => panic!("{}", error),
+    };
+    match fs::remove_file("d.txt") {
+        Ok(result) => result,
+        Err(error) => panic!("{}", error),
+    };
+
+    return format!("{}", String::from_utf8_lossy(&cat_output.stdout));
 }
 
 #[tauri::command]
-fn delete_private_key(user_name: String) -> String {
+fn delete_private_key(user_name: &str) -> String {
     let output = Command::new("gpg")
         .args([
             "--delete-secret-key",
@@ -33,7 +53,7 @@ fn delete_private_key(user_name: String) -> String {
 }
 
 #[tauri::command]
-fn delete_public_key(user_name: String) -> String {
+fn delete_public_key(user_name: &str) -> String {
     let output = Command::new("gpg")
         .args([
             "--delete-key",
@@ -45,14 +65,13 @@ fn delete_public_key(user_name: String) -> String {
 }
 
 #[tauri::command]
-fn encrypt(sender: String, recipient: String, text: &str) -> String {
-
+fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
     match fs::write("m.txt", text) {
         Ok(file) => file,
         Err(error) => panic!("{}", error),
     };
 
-    let gpg_output = Command::new("gpg")
+    Command::new("gpg")
         .args([
             "-e",
             "--default-key",
@@ -78,7 +97,6 @@ fn encrypt(sender: String, recipient: String, text: &str) -> String {
         Ok(result) => result,
         Err(error) => panic!("{}", error),
     };
-
     match fs::remove_file("m.txt.asc") {
         Ok(result) => result,
         Err(error) => panic!("{}", error),

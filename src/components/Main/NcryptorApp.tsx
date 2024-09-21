@@ -16,8 +16,14 @@ import NavBar from "../Nav/NavBar";
 import InfoBtn from "../Nav/InfoBtn";
 import ViewRouter from "./ViewRouter";
 import useCommandResult from "../../hooks/useCommandResult";
-import { GetPrivateKeysResponse, getPrivateKeys } from "../../services/getPrivateKeys";
-import { GetPublicKeysResponse, getPublicKeys } from "../../services/getPublicKeys";
+import {
+  GetPrivateKeysResponse,
+  getPrivateKeys,
+} from "../../services/getPrivateKeys";
+import {
+  GetPublicKeysResponse,
+  getPublicKeys,
+} from "../../services/getPublicKeys";
 
 /*
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
@@ -67,6 +73,7 @@ const NcryptorApp = (): JSX.Element => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const dispatchSetError = (message: string) => dispatch(setErrorText(message));
   const dispatchSetView = (view: AppViews) => dispatch(setView(view));
+
   const [_, refreshPrivateKeys] = useCommandResult(
     getPrivateKeys,
     (e?: Error | undefined) =>
@@ -84,11 +91,13 @@ const NcryptorApp = (): JSX.Element => {
       dispatch(setPublicKeys(result.keys));
     },
   );
+
   const viewRef = React.useRef<HTMLDivElement>(null);
   const setViewAndResetScroll = (view: AppViews) => {
     viewRef?.current?.scrollTo({ top: 0 });
     dispatchSetView(view);
   };
+
   return (
     <Container>
       <Header />
