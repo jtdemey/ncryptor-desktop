@@ -37,6 +37,7 @@ export const TextContainer = styled.div`
 export const UserIdLabel = styled.div`
   display: flex;
   align-items: center;
+  justify-content: left;
   font-family: "Lora", serif;
   text-align: left;
 `;
@@ -44,6 +45,7 @@ export const UserIdLabel = styled.div`
 export const KeyThumbprint = styled.div`
   display: flex;
   align-items: center;
+  justify-content: left;
   font-family: "Lato", sans-serif;
   text-align: left;
 `;
@@ -77,7 +79,7 @@ const PrivateKeysList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(privateKey.userIds[0].name, 9)}</UserIdLabel>
+              <UserIdLabel>{applyEllipsis(privateKey.userIds[0].name, 16)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(privateKey.fingerprint)}
               </KeyThumbprint>

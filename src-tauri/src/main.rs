@@ -2,14 +2,28 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::fs;
+use std::io::Write;
 use std::process::Command;
+use std::path::Path;
 
-#[tauri::command]
-fn decrypt(text: &str) -> String {
-    match fs::write("d.txt.gpg", text) {
+
+fn delete_file(file_name: &str) {
+    match fs::remove_file(file_name) {
+        Ok(result) => result,
+        Err(error) => panic!("{}", error),
+    };
+}
+
+fn write_file(file_name: &str, content: &str) {
+    match fs::write(file_name, content) {
         Ok(file) => file,
         Err(error) => panic!("{}", error),
     };
+}
+
+#[tauri::command]
+fn decrypt(text: &str) -> String {
+    write_file("d.txt.gpg", text);
 
     Command::new("gpg")
         .args([
@@ -21,6 +35,11 @@ fn decrypt(text: &str) -> String {
         .output()
         .expect("failed to decrypt string");
 
+    if !Path::new("d.txt").exists() {
+        delete_file("d.txt.gpg");
+        return "Unable to decrypt string: the corresponding secret key must be imported in your keyring.".to_string();
+    }
+
     let cat_output = Command::new("cat")
         .args([
             "d.txt",
@@ -28,14 +47,8 @@ fn decrypt(text: &str) -> String {
         .output()
         .expect("failed to get file contents");
 
-    match fs::remove_file("d.txt.gpg") {
-        Ok(result) => result,
-        Err(error) => panic!("{}", error),
-    };
-    match fs::remove_file("d.txt") {
-        Ok(result) => result,
-        Err(error) => panic!("{}", error),
-    };
+    delete_file("d.txt.gpg");
+    delete_file("d.txt");
 
     return format!("{}", String::from_utf8_lossy(&cat_output.stdout));
 }
@@ -66,12 +79,9 @@ fn delete_public_key(user_name: &str) -> String {
 
 #[tauri::command]
 fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
-    match fs::write("m.txt", text) {
-        Ok(file) => file,
-        Err(error) => panic!("{}", error),
-    };
+    write_file("m.txt", text);
 
-    Command::new("gpg")
+    let gpg_output = Command::new("gpg")
         .args([
             "-e",
             "--default-key",
@@ -86,6 +96,10 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
         .output()
         .expect("failed to encrypt string");
 
+    if !Path::new("m.txt.asc").exists() {
+        return format!("Unable to encrypt string: {}", String::from_utf8_lossy(&gpg_output.stderr));
+    }
+
     let cat_output = Command::new("cat")
         .args([
             "m.txt.asc",
@@ -93,16 +107,36 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
         .output()
         .expect("failed to get file contents");
 
-    match fs::remove_file("m.txt") {
-        Ok(result) => result,
-        Err(error) => panic!("{}", error),
-    };
-    match fs::remove_file("m.txt.asc") {
-        Ok(result) => result,
-        Err(error) => panic!("{}", error),
-    };
+    delete_file("m.txt");
+    delete_file("m.txt.asc");
 
     return format!("{}", String::from_utf8_lossy(&cat_output.stdout));
+}
+
+#[tauri::command]
+fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
+    let gpg_process = Command::new("gpg")
+        .args([
+            "--expert",
+            "--full-gen-key",
+        ])
+        .spawn()
+        .expect("failed to get gpg version");
+    let inputs: [&[u8]; 9] = [
+        b"1",
+        b"4096",
+        b"4096",
+        b"1w",
+        b"y",
+        b"frank bean",
+        b"frank@bean.net",
+        b"yes",
+        b"O",
+    ];
+    for i in inputs {
+        gpg_process.stdin.as_ref().expect("WHAT").write(i);
+    }
+    return "Success!".to_string();
 }
 
 #[tauri::command]
@@ -139,6 +173,7 @@ fn main() {
             delete_private_key,
             delete_public_key,
             encrypt,
+            generate_keypair,
             get_gpg_version,
             get_private_keys,
             get_public_keys
