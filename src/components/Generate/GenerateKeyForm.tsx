@@ -9,9 +9,6 @@ import GenerateKeySubmitBtn from "./GenerateKeySubmitBtn";
 import { AppViews } from "../../data/AppViews";
 import { sanitizeInput } from "../../utils/StringSanitizer";
 import ValidationErrorArea from "../Form/ValidationErrorArea";
-import { executeFetch } from "../../client/ApiClient";
-import { SignOnlyCurves } from "../../data/SignOnlyCurves";
-import { handleGpgError } from "../../client/ErrorHandlers";
 
 type GenerateKeyFormProps = {
   refreshKeys: Function;
@@ -40,50 +37,26 @@ export const BtnBar = styled.div`
 
 const ds = (stringValue: string): [string, string] => [
   stringValue,
-  stringValue
+  stringValue,
 ];
-
-const parseCurves = (curvesResponse: string): [string, string][] => {
-  const curvesString = curvesResponse.split(":")[2];
-  return curvesString
-    .split(";")
-    .filter(
-      (curve: string) =>
-        !SignOnlyCurves.some(
-          (signOnlyCurve: string) => signOnlyCurve === curve.trim()
-        )
-    )
-    .map((curve: string) => ds(curve.trim()));
-};
 
 const GenerateKeyForm = ({
   refreshKeys,
   setErrorText,
-  setView
+  setView,
 }: GenerateKeyFormProps): JSX.Element => {
   const initialOptions: [string, string][] = [
     ds("rsa4096"),
     ds("rsa2048"),
-    ds("rsa1024")
+    ds("rsa1024"),
   ];
-  const [dropdownOptions, setDropdownOptions] = React.useState(initialOptions);
+  const [dropdownOptions, _] = React.useState(initialOptions);
   const [userId, setUserId] = React.useState("");
   const [selectedAlgorithm, setSelectedAlgorithm] = React.useState("rsa4096");
   const [selectedDate, setSelectedDate] = React.useState("");
   const initialErrors: string[] = [];
   const [validationErrors, setValidationErrors] = React.useState(initialErrors);
   const radioSelections = ["1m", "2m", "6m", "1y", "never", "custom"];
-  React.useEffect(() => {
-    executeFetch("getcurves")
-      .then((response: Response) => response.json())
-      .then(result => {
-        if (handleGpgError(result, setErrorText)) {
-          setDropdownOptions(
-            dropdownOptions.concat(parseCurves(result.curves))
-          );
-        }
-      });
-  }, []);
   return (
     <Container>
       <BackBtn clickFunc={() => setView(AppViews.Keyring)} />

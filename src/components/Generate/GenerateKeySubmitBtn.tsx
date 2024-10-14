@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { executeFetch } from "../../client/ApiClient";
 import { handleGpgError } from "../../client/ErrorHandlers";
 import { AppViews } from "../../data/AppViews";
+import { generateKeypair } from "../../services/generateKeypair";
 
 type GenerateKeySubmitBtnProps = {
   algorithm: string;
@@ -74,9 +75,10 @@ const GenerateKeySubmitBtn = ({
       return;
     }
     setLoading(true);
-    executeFetch("genkey", { userId, algorithm, expirationDate })
+    generateKeypair(userId, algorithm, expirationDate)
       .then((response: Response) => response.json())
       .then((response: any) => {
+        console.log(response);
         setLoading(false);
         if (handleGpgError(response, setErrorText)) {
           setView(AppViews.Keyring);

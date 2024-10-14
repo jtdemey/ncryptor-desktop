@@ -1,5 +1,19 @@
 import { invokeTauriCommand } from "./invokeTauriCommand";
 
+/*
+1
+key size
+subkey size
+expiry
+confirmation y/N
+userId
+email
+comment
+Change Name Comment Email or Okay/Quit
+Entropy time
+DONE!
+*/
+
 export const generateKeypair = async (
   userId: string,
   algorithm: string,
@@ -10,3 +24,4 @@ export const generateKeypair = async (
     expiration,
     userId,
   }).catch((error: any) => console.error(error));
+

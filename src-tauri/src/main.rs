@@ -5,6 +5,7 @@ use std::fs;
 use std::io::Write;
 use std::process::Command;
 use std::path::Path;
+use std::thread;
 
 
 fn delete_file(file_name: &str) {
@@ -115,27 +116,72 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
 
 #[tauri::command]
 fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
-    let gpg_process = Command::new("gpg")
+    /*
+    */
+    let gpg_thread = thread::spawn(|| {
+        let gpg_process = Command::new("gpg")
+            .args([
+                "--expert",
+                "--full-gen-key",
+            ])
+            .output()
+            .expect("failed to get gpg version");
+
+        let inputs: [&[u8]; 9] = [
+            b"1",
+            b"4096",
+            b"4096",
+            b"1w",
+            b"y",
+            b"frank bean",
+            b"frank@bean.net",
+            b"yes",
+            b"O",
+        ];
+
+        for i in inputs {
+            let output = match gpg_process.stdin.as_ref()
+                .expect("Unable to write to stdin")
+                .write(i)
+            {
+                Ok(result) => result,
+                Err(error) => panic!("{}", error),
+            };
+            println!("{}", format!("{}", output));
+        }
+    });
+    gpg_thread.join().unwrap();
+    /*
+    for i in inputs {
+        let output = match gpg_process.stdin.as_ref()
+            .expect("Unable to write to stdin")
+            .write(i)
+        {
+            Ok(result) => result,
+            Err(error) => panic!("{}", error),
+        };
+        println!("{}", format!("{}", output));
+    }
+    let node_process = Command::new("gpg")
         .args([
             "--expert",
             "--full-gen-key",
         ])
         .spawn()
         .expect("failed to get gpg version");
-    let inputs: [&[u8]; 9] = [
-        b"1",
-        b"4096",
-        b"4096",
-        b"1w",
-        b"y",
-        b"frank bean",
-        b"frank@bean.net",
-        b"yes",
-        b"O",
+    let inputs: [&[u8]; 1] = [
+        b".exit",
     ];
     for i in inputs {
-        gpg_process.stdin.as_ref().expect("WHAT").write(i);
+        match gpg_process.stdin.as_ref()
+            .expect("Unable to write to stdin")
+            .write(i)
+        {
+            Ok(result) => result,
+            Err(error) => panic!("{}", error),
+        };
     }
+    */
     return "Success!".to_string();
 }
 
