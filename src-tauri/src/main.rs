@@ -2,10 +2,12 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::fs;
-use std::io::Write;
-use std::process::Command;
+use std::io::{BufRead, BufReader, Write};
 use std::path::Path;
+use std::process::{Command, Stdio};
+use std::sync::mpsc;
 use std::thread;
+use std::time::{Duration, Instant};
 
 
 fn delete_file(file_name: &str) {
@@ -114,74 +116,114 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
     return format!("{}", String::from_utf8_lossy(&cat_output.stdout));
 }
 
+struct CliResponse {
+    timeout: Duration,
+}
+
+enum CliMessage {
+    Command(String),
+    Exit,
+}
+
 #[tauri::command]
 fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
-    /*
-    */
-    let gpg_thread = thread::spawn(|| {
-        let gpg_process = Command::new("gpg")
+    let (input_tx, input_rx) = mpsc::channel();
+    let (output_tx, output_rx) = mpsc::channel();
+
+    let handle = thread::spawn(move || {
+        let mut gpg_command = Command::new("gpg")
             .args([
                 "--expert",
                 "--full-gen-key",
             ])
-            .output()
-            .expect("failed to get gpg version");
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn()
+            .expect("Failed to spawn gpg thread");
 
-        let inputs: [&[u8]; 9] = [
-            b"1",
-            b"4096",
-            b"4096",
-            b"1w",
-            b"y",
-            b"frank bean",
-            b"frank@bean.net",
-            b"yes",
-            b"O",
-        ];
+        let mut stdin = gpg_command.stdin.take().expect("Failed to get gpg stdin");
+        let stdout = gpg_command.stdout.take().expect("Failed to get gpg stdout");
 
-        for i in inputs {
-            let output = match gpg_process.stdin.as_ref()
-                .expect("Unable to write to stdin")
-                .write(i)
-            {
-                Ok(result) => result,
-                Err(error) => panic!("{}", error),
-            };
-            println!("{}", format!("{}", output));
+        let output_tx_clone = output_tx.clone();
+        thread::spawn(move || {
+            let reader = BufReader::new(stdout);
+            for line in reader.lines() {
+                if let Ok(line) = line {
+                    println!("spat {}", line);
+                    output_tx_clone.send(line).expect("Failed to send output to channel")
+                }
+            }
+        });
+
+        while let Ok(message) = input_rx.recv() {
+            match message {
+                CliMessage::Command(input) => {
+                    writeln!(stdin, "{}", input).expect("Failed to write to stdin");
+                }
+                CliMessage::Exit => break,
+            }
         }
+
+        gpg_command.wait().expect("gpg unexpectedly failed");
     });
-    gpg_thread.join().unwrap();
-    /*
-    for i in inputs {
-        let output = match gpg_process.stdin.as_ref()
-            .expect("Unable to write to stdin")
-            .write(i)
-        {
-            Ok(result) => result,
-            Err(error) => panic!("{}", error),
-        };
-        println!("{}", format!("{}", output));
-    }
-    let node_process = Command::new("gpg")
-        .args([
-            "--expert",
-            "--full-gen-key",
-        ])
-        .spawn()
-        .expect("failed to get gpg version");
-    let inputs: [&[u8]; 1] = [
-        b".exit",
+
+    let send_command_and_wait = |command: &str, expected: CliResponse| -> Result<String, &'static str> {
+        input_tx.send(CliMessage::Command(command.to_string()))
+            .map_err(|_| "Failed to send command")?;
+
+        let start = Instant::now();
+        let mut accumulated_output = Vec::new();
+
+        while let Ok(output) = output_rx.recv_timeout(expected.timeout) {
+            accumulated_output.push(output.clone());
+            return Ok(output);
+
+            if start.elapsed() > expected.timeout {
+                return Err("Timeout waiting for expected output");
+            }
+        }
+
+        Err("No matching output received")
+    };
+
+    let inputs: [(&str, i32); 9] = [
+        ("1", 5),
+        ("4096", 5),
+        ("4096", 5),
+        ("1w", 5),
+        ("y", 5),
+        ("frank bean", 5),
+        ("frank@bean.net", 5),
+        ("yes", 5),
+        ("O", 5),
     ];
-    for i in inputs {
-        match gpg_process.stdin.as_ref()
-            .expect("Unable to write to stdin")
-            .write(i)
-        {
-            Ok(result) => result,
-            Err(error) => panic!("{}", error),
-        };
+
+    let commands = vec![
+        ("1\n", CliResponse {
+            timeout: Duration::from_secs(5),
+        }),
+        ("4096", CliResponse {
+            timeout: Duration::from_secs(5),
+        }),
+        ("4096", CliResponse {
+            timeout: Duration::from_secs(5),
+        }),
+    ];
+
+    for (cmd, expected) in commands {
+        match send_command_and_wait(cmd, expected) {
+            Ok(output) => println!("Successfully received: {}", output),
+            Err(e) => println!("Error: {}", e),
+        }
     }
-    */
+
+    // Clean up
+    input_tx.send(CliMessage::Exit).unwrap();
+    handle.join().unwrap();
+
+    drop(input_tx);
+
     return "Success!".to_string();
 }
 
