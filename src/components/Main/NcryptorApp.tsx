@@ -24,6 +24,7 @@ import {
   GetPublicKeysResponse,
   getPublicKeys,
 } from "../../services/getPublicKeys";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 /*
 {"Ash Gray":"cad2c5","Dark Sea Green":"84a98c","Hookers Green":"52796f","Dark Slate Gray":"354f52","Charcoal":"2f3e46"}
@@ -79,8 +80,9 @@ const NcryptorApp = (): JSX.Element => {
     (e?: Error | undefined) =>
       dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
     (result: GetPrivateKeysResponse) => {
+      console.log(result);
       dispatch(setPrivateKeys(result.keys));
-      dispatch(setCurrentUser(result.keys[0].userIds[0].name));
+      dispatch(setCurrentUser(displayKeyName(result.keys[0])));
     },
   );
   const [__, refreshPublicKeys] = useCommandResult(

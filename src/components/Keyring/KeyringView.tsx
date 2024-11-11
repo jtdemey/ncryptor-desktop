@@ -43,7 +43,8 @@ const KeyringView = ({
   const [loading, setLoading] = React.useState(false);
   const refreshHandler = () => {
     setLoading(true);
-    refreshKeys(() => setLoading(false));
+    refreshKeys();
+    setTimeout(() => setLoading(false), 100);
   };
   return (
     <section>

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-export default function useCommandResult(
+export default function useCommandResult<T>(
   service: Function,
   onError: (e?: Error) => void = () => false,
   onSuccess: (value: any) => void = () => {},
 ): [any, () => void] {
-  const [state, setState] = useState<any>(null);
+  const [state, setState] = useState<T | null>(null);
   const [rerunFlag, setRerunFlag] = useState<boolean>(true);
   const rerun = () => setRerunFlag(!rerunFlag);
   useEffect(() => {

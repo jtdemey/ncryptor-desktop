@@ -9,6 +9,7 @@ import {
   KeyTypeLabel
 } from "../Keyring/PrivateKeysList";
 import KeysListLegend from "../Keyring/KeysListLegend";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 type ContactsListProps = {
   contacts: Array<PublicKey>;
@@ -38,7 +39,7 @@ const ContactsList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{getDisplayUserId(contact.userIds[0].name)}</UserIdLabel>
+              <UserIdLabel>{getDisplayUserId(displayKeyName(contact))}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(contact.fingerprint)}
               </KeyThumbprint>

@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import TextAreaInput from "../Encrypt/TextAreaInput";
 import SectionCard from "../Main/SectionCard";
 import { PrivateKey } from "../Main/NcryptorApp";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 type DecryptViewProps = {
   currentUser: string;
@@ -14,7 +15,7 @@ const DecryptView = ({
   privateKeys,
 }: DecryptViewProps): JSX.Element => {
   const recipientFingerprint = privateKeys.filter(
-    (key: PrivateKey) => key.userIds[0].name === currentUser
+    (key: PrivateKey) => displayKeyName(key) === currentUser
   )[0]?.fingerprint;
   return (
     <SectionCard>

@@ -76,7 +76,7 @@ const GenerateKeySubmitBtn = ({
     }
     setLoading(true);
     generateKeypair(userId, algorithm, expirationDate)
-      .then((response: Response) => response.json())
+      .then((response: Response) => console.log(response))
       .then((response: any) => {
         console.log(response);
         setLoading(false);

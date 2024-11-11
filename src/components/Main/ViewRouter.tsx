@@ -160,7 +160,7 @@ const ViewRouter = ({
   setView,
   view,
   viewRef
-}: ViewRouterProps): JSX.Element => {
+}: ViewRouterProps) => {
   return (
     <View ref={viewRef}>
       {getView({

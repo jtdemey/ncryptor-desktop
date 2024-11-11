@@ -1,4 +1,3 @@
-import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 import { getGpgVersion } from "../../services/getGpgVersion";
@@ -35,7 +34,7 @@ const animationProps = {
   transition: { ease: "easeOut", duration: 0.4 }
 };
 
-const InfoView = (): JSX.Element => {
+const InfoView = () => {
   const gpgVersionText = useCommandResult(getGpgVersion);
   return (
     <Container>
@@ -44,14 +43,14 @@ const InfoView = (): JSX.Element => {
           Ncryptor Desktop v1.0
           <br />
           by <a href="https://www.johntorsten.com">John Torsten</a>
-          <br />© 2024
+          <br />🄯 2024
         </MetaBox>
         <Text {...animationProps}>
           {gpgVersionText}
         </Text>
         <Text {...animationProps}>
           Ncryptor Desktop is a simple frontend used to invoke the{" "}
-          <a href="https://www.gnupg.org">GNU Privacy Guard</a>. It is{" "}
+          <a href="https://www.gnupg.org">GNU Privacy Guard</a> (gpg). It is{" "}
           <a href="https://github.com/jtdemey/ncryptor-desktop">
             open source software
           </a>

@@ -1,6 +1,7 @@
 import React from "react";
 import Dropdown from "../Form/Dropdown";
 import { PrivateKey, PublicKey } from "../Main/NcryptorApp";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 type UserDropdownSelectionProps = {
   currentSelection: string;
@@ -19,7 +20,7 @@ const UserDropdownSelection = ({
         key.fingerprint.length - 8,
         key.fingerprint.length,
       ),
-      key.userIds[0].name,
+      displayKeyName(key),
     ],
   );
   const [dropdownSelections, setDropdownSelections] =

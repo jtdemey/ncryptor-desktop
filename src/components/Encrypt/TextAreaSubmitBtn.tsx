@@ -29,7 +29,6 @@ const TextAreaSubmitBtn = ({
   const [loading, setLoading] = React.useState(false);
   const clickFunc = async () =>
     service().then((result: string) => {
-      console.log(result);
       setLoading(false);
       setText(result);
     });

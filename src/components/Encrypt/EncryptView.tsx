@@ -8,6 +8,7 @@ import { PrivateKey, PublicKey } from "../Main/NcryptorApp";
 import RecipientSelection from "./RecipientSelection";
 import SenderSelection from "./SenderSelection";
 import SelectionLabel from "./SelectionLabel";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 type EncryptViewProps = {
   currentUser: string;
@@ -28,18 +29,18 @@ const EncryptView = ({
   setCurrentUser,
 }: EncryptViewProps): JSX.Element => {
   const [recipient, setRecipient] = React.useState(
-    publicKeys.length ? publicKeys[0].userIds[0].name : "",
+    publicKeys.length ? publicKeys[0].userIds[0]?.name ?? "" : "",
   );
   React.useEffect(
-    () => setRecipient(publicKeys.length ? publicKeys[0].userIds[0].name : ""),
+    () => setRecipient(publicKeys.length ? displayKeyName(publicKeys[0]) : ""),
     [publicKeys, setRecipient],
   );
 
   const senderFingerprint = privateKeys.filter(
-    (key: PrivateKey) => key.userIds[0].name === currentUser,
+    (key: PrivateKey) => displayKeyName(key) === currentUser,
   )[0]?.fingerprint;
   const recipientFingerprint = publicKeys.filter(
-    (key: PublicKey) => key.userIds[0].name === recipient,
+    (key: PublicKey) => displayKeyName(key) === recipient,
   )[0]?.fingerprint;
 
   return (

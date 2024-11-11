@@ -43,7 +43,8 @@ const ContactsView = ({
   const [loading, setLoading] = React.useState(false);
   const refreshHandler = () => {
     setLoading(true);
-    refreshContacts(() => setLoading(false));
+    refreshContacts();
+    setTimeout(() => setLoading(false), 100);
   };
   return (
     <section>

@@ -2,12 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
-type ConfirmModalProps = {
-  cancelFunction: Function;
-  confirmFunction: Function;
-  fingerprint: string;
-  isKeyPrivate: boolean;
+type ModalProps = {
+  children: React.ReactNode;
   isVisible: boolean;
+  onCancel: () => void;
+  onConfirm: () => void;
 };
 
 const Container = styled(motion.div)`
@@ -24,12 +23,13 @@ const Container = styled(motion.div)`
   z-index: 99;
 `;
 
-const Modal = styled.article`
+const Article = styled.article`
   width: 80vw;
-  height: 60vh;
+  height: 200px;
   margin: auto;
   padding: 0.5rem;
   background: hsl(201, 21%, 10%);
+  border-radius: 8px;
   box-shadow: -5px 5px 0.5rem rgba(0, 0, 0, 0.65);
   color: #cad2c5;
   font-family: "Lato", sans-serif;
@@ -37,59 +37,56 @@ const Modal = styled.article`
 `;
 
 const Prompt = styled.div`
-  margin-top: 50%;
+  margin-top: 24px;
 `;
 
 const BtnArea = styled.div`
-  margin-top: 2rem;
+  margin-top: 12px;
 `;
 
 const Btn = styled.span`
   margin: 1rem 1.5rem;
   padding: 0.25rem 0.75rem;
   background: blue;
+  border-radius: 8px;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.65);
   cursor: pointer;
   font-size: 1.5rem;
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const ConfirmModal = ({
-  cancelFunction,
-  confirmFunction,
-  fingerprint,
-  isKeyPrivate,
+const Modal = ({
+  children,
+  onCancel,
+  onConfirm,
   isVisible
-}: ConfirmModalProps): JSX.Element => (
+}: ModalProps) => (
   <Container
     animate={{ opacity: isVisible ? 1 : 0 }}
     transition={{ duration: 0.15, ease: "easeIn" }}
     style={{ display: isVisible ? "flex" : "none" }}
   >
-    <Modal>
+    <Article>
       <Prompt>
-        <span>
-          Confirm your intent to PERMANENTLY DELETE the {isKeyPrivate ? "private" : "public"} key{" "}
-          {fingerprint.substring(fingerprint.length - 8, fingerprint.length)}:
-        </span>
+        {children}
       </Prompt>
       <br />
       <BtnArea>
         <Btn
-          onClick={() => confirmFunction()}
+          onClick={() => onConfirm()}
           style={{ background: "hsl(165, 19%, 30%)" }}
         >
           Confirm
         </Btn>
         <Btn
-          onClick={() => cancelFunction()}
+          onClick={() => onCancel()}
           style={{ background: "hsl(201, 21%, 20%)" }}
         >
           Cancel
         </Btn>
       </BtnArea>
-    </Modal>
+    </Article>
   </Container>
 );
 
-export default ConfirmModal;
+export default Modal;

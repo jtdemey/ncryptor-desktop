@@ -62,6 +62,7 @@ const GenerateKeyForm = ({
       <BackBtn clickFunc={() => setView(AppViews.Keyring)} />
       <Header>Create a new keypair</Header>
       <ValidationErrorArea errors={validationErrors} />
+      {/* TODO add email and comment inputs */}
       <TextInput
         autoFocus={true}
         changeHandler={(e: React.ChangeEvent<HTMLInputElement>) =>

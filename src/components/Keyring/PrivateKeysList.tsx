@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import styled from "styled-components";
 import KeysListLegend from "./KeysListLegend";
 import { PrivateKey } from "./../Main/NcryptorApp";
-import { applyEllipsis } from "../../utils/StringFormatters";
+import { applyEllipsis, displayKeyName } from "../../utils/StringFormatters";
 
 type PrivateKeysListProps = {
   privateKeys: Array<PrivateKey>;
@@ -79,7 +79,7 @@ const PrivateKeysList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(privateKey.userIds[0].name, 16)}</UserIdLabel>
+              <UserIdLabel>{applyEllipsis(displayKeyName(privateKey), 16)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(privateKey.fingerprint)}
               </KeyThumbprint>

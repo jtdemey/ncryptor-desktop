@@ -1,15 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 import BackBtn from "../Main/BackBtn";
-import SectionCard from "../Main/SectionCard";
+import ConfirmDeleteModal from "./ConfirmDeleteModal";
+import DeleteKeyBtn from "./DeleteKeyBtn";
 import KeyDetailsGroup from "./KeyDetailsGroup";
 import KeyHeader from "./KeyHeader";
-import DeleteKeyBtn from "./DeleteKeyBtn";
+import SectionCard from "../Main/SectionCard";
 import { AppViews } from "../../data/AppViews";
 import { PrivateKey } from "../Main/NcryptorApp";
-import ConfirmModal from "./ConfirmModal";
 import { executeFetch } from "../../client/ApiClient";
 import { handleGpgError } from "../../client/ErrorHandlers";
+import { displayKeyName } from "../../utils/StringFormatters";
 
 type KeyDetailsViewProps = {
   currentKey: PrivateKey;
@@ -39,9 +40,9 @@ const KeyDetailsView = ({
   const [showingModal, setShowingModal] = React.useState(false);
   return (
     <Container>
-      <ConfirmModal
-        cancelFunction={() => setShowingModal(false)}
-        confirmFunction={() =>
+      <ConfirmDeleteModal
+        onCancel={() => setShowingModal(false)}
+        onConfirm={() =>
           executeFetch(
             isKeyPrivate ? "deleteprivatekeys" : "deletepublickeys",
             {
@@ -77,7 +78,7 @@ const KeyDetailsView = ({
             color={currentKey.color}
             labelText="User ID"
             showCopyBtn={true}
-            valueText={currentKey.userIds[0].name}
+            valueText={displayKeyName(currentKey)}
           />
           <KeyDetailsGroup
             animationDelay={0.1}
