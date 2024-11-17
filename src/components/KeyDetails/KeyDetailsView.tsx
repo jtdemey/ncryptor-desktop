@@ -11,6 +11,8 @@ import { PrivateKey } from "../Main/NcryptorApp";
 import { executeFetch } from "../../client/ApiClient";
 import { handleGpgError } from "../../client/ErrorHandlers";
 import { displayKeyName } from "../../utils/StringFormatters";
+import { deletePrivateKey } from "../../services/deletePrivateKey";
+import { deletePublicKey } from "../../services/deletePublicKey";
 
 type KeyDetailsViewProps = {
   currentKey: PrivateKey;
@@ -38,26 +40,18 @@ const KeyDetailsView = ({
   setView
 }: KeyDetailsViewProps): JSX.Element => {
   const [showingModal, setShowingModal] = React.useState(false);
+  console.log(currentKey.fingerprint);
   return (
     <Container>
       <ConfirmDeleteModal
         onCancel={() => setShowingModal(false)}
-        onConfirm={() =>
-          executeFetch(
-            isKeyPrivate ? "deleteprivatekeys" : "deletepublickeys",
-            {
-              fingerprint: currentKey.fingerprint
-            }
-          )
-            .then((response: Response) => response.json())
-            .then((response: any) => {
-              setShowingModal(false);
-              if (handleGpgError(response, setErrorText)) {
-                setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
-                refreshKeys();
-              }
-            })
-        }
+        onConfirm={() => {
+          const result = isKeyPrivate ? deletePrivateKey(currentKey.fingerprint) : deletePublicKey(currentKey.fingerprint);
+          console.log(result);
+          setShowingModal(false);
+          setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
+          refreshKeys();
+        }}
         fingerprint={currentKey.fingerprint}
         isKeyPrivate={isKeyPrivate}
         isVisible={showingModal}

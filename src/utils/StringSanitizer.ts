@@ -1,9 +1,7 @@
+export const sanitizeEmail = (raw: string): string => {
+  return raw.replace(/[^a-zA-Z0-9_@ ]+/gi, "");
+};
+
 export const sanitizeInput = (raw: string): string => {
-  for (let i = 0; i < raw.length; i++) {
-    if (raw[i] === " ") {
-      raw = raw.slice(0, i) + raw.slice(i + 1);
-      i--;
-    }
-  }
-  return raw.replace(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/gi, "");
+  return raw.replace(/[^a-zA-Z0-9_ ]+/gi, "");
 };

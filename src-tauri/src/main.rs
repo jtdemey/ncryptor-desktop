@@ -53,11 +53,12 @@ fn decrypt(text: &str) -> String {
 }
 
 #[tauri::command]
-fn delete_private_key(user_name: &str) -> String {
+fn delete_private_key(fingerprint: &str) -> String {
     let output = Command::new("gpg")
         .args([
             "--delete-secret-key",
-            &user_name
+            "--yes",
+            &fingerprint,
         ])
         .output()
         .expect("failed to delete private key");
@@ -65,11 +66,12 @@ fn delete_private_key(user_name: &str) -> String {
 }
 
 #[tauri::command]
-fn delete_public_key(user_name: &str) -> String {
+fn delete_public_key(fingerprint: &str) -> String {
     let output = Command::new("gpg")
         .args([
             "--delete-key",
-            &user_name
+            "--yes",
+            &fingerprint,
         ])
         .output()
         .expect("failed to delete public key");
@@ -114,16 +116,10 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
 
 #[tauri::command]
 fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
-    println!("{}", algorithm);
-    println!("{}", expiration);
-    let quoted_user_id = format!("\"{}\"", user_id).to_string();
-    println!("{}", quoted_user_id);
     let output = Command::new("gpg")
-        .args(["--quick-gen-key", &quoted_user_id, algorithm, "-", expiration])
+        .args(["--quick-gen-key", &user_id, algorithm, "-", expiration])
         .output()
         .expect("failed to generate key");
-    println!("{}", format!("{}", String::from_utf8_lossy(&output.stdout)));
-    println!("{}", format!("{}", String::from_utf8_lossy(&output.stderr)));
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
 
