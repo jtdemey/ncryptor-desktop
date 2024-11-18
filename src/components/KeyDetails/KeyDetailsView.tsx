@@ -43,11 +43,15 @@ const KeyDetailsView = ({
       <ConfirmDeleteModal
         onCancel={() => setShowingModal(false)}
         onConfirm={() => {
-          const result = isKeyPrivate ? deletePrivateKey(currentKey.fingerprint) : deletePublicKey(currentKey.fingerprint);
-          console.log(result);
-          setShowingModal(false);
-          setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
-          refreshKeys();
+					const onComplete = () => {
+						setShowingModal(false);
+						setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
+						refreshKeys();
+					};
+          const service = isKeyPrivate ? deletePrivateKey : deletePublicKey;
+					service(currentKey.fingerprint)
+						.then(() => onComplete())
+						.catch(err => setErrorText(err));
         }}
         fingerprint={currentKey.fingerprint}
         isKeyPrivate={isKeyPrivate}

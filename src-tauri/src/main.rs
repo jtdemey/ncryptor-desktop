@@ -70,9 +70,9 @@ fn delete_private_key(fingerprint: &str) -> String {
 fn delete_public_key(fingerprint: &str) -> String {
     let output = Command::new("gpg")
         .args([
-            "--delete-key",
 						"--batch",
             "--yes",
+            "--delete-key",
             &fingerprint,
         ])
         .output()
