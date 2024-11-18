@@ -80,7 +80,6 @@ const NcryptorApp = (): JSX.Element => {
     (e?: Error | undefined) =>
       dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
     (result: GetPrivateKeysResponse) => {
-      console.log(result);
       dispatch(setPrivateKeys(result.keys));
       dispatch(setCurrentUser(displayKeyName(result.keys[0])));
     },

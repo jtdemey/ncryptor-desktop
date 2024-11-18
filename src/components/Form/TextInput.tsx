@@ -49,7 +49,7 @@ const TextInput = ({
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
-  });
+  }, []);
   return (
     <>
       <Label

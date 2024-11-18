@@ -35,6 +35,7 @@ export const BtnBar = styled.div`
   margin-top: 1rem;
 `;
 
+// Make a dropdown selection with the same display text and value
 const ds = (stringValue: string): [string, string] => [
   stringValue,
   stringValue,
@@ -57,7 +58,7 @@ const GenerateKeyForm = ({
   const [comment, setComment] = React.useState("");
 
   const [selectedAlgorithm, setSelectedAlgorithm] = React.useState("rsa4096");
-  const [selectedDate, setSelectedDate] = React.useState("");
+  const [selectedDate, setSelectedDate] = React.useState("never");
   const initialErrors: string[] = [];
   const [validationErrors, setValidationErrors] = React.useState(initialErrors);
   const radioSelections = ["1m", "2m", "6m", "1y", "never", "custom"];
@@ -68,7 +69,7 @@ const GenerateKeyForm = ({
       <Header>Create a new keypair</Header>
       <ValidationErrorArea errors={validationErrors} />
       <TextInput
-        autoFocus={true}
+				autoFocus
         changeHandler={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUserId(sanitizeInput(e.target.value))
         }
@@ -111,6 +112,8 @@ const GenerateKeyForm = ({
       <BtnBar>
         <GenerateKeySubmitBtn
           algorithm={selectedAlgorithm}
+					comment={comment}
+					email={email}
           expirationDate={selectedDate}
           userId={userId}
           refreshKeys={refreshKeys}

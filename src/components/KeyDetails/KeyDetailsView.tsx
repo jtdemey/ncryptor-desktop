@@ -8,8 +8,6 @@ import KeyHeader from "./KeyHeader";
 import SectionCard from "../Main/SectionCard";
 import { AppViews } from "../../data/AppViews";
 import { PrivateKey } from "../Main/NcryptorApp";
-import { executeFetch } from "../../client/ApiClient";
-import { handleGpgError } from "../../client/ErrorHandlers";
 import { displayKeyName } from "../../utils/StringFormatters";
 import { deletePrivateKey } from "../../services/deletePrivateKey";
 import { deletePublicKey } from "../../services/deletePublicKey";
@@ -40,7 +38,6 @@ const KeyDetailsView = ({
   setView
 }: KeyDetailsViewProps): JSX.Element => {
   const [showingModal, setShowingModal] = React.useState(false);
-  console.log(currentKey.fingerprint);
   return (
     <Container>
       <ConfirmDeleteModal

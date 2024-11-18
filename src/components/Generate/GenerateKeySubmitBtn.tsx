@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { executeFetch } from "../../client/ApiClient";
 import { handleGpgError } from "../../client/ErrorHandlers";
 import { AppViews } from "../../data/AppViews";
 import { generateKeypair } from "../../services/generateKeypair";
 
 type GenerateKeySubmitBtnProps = {
   algorithm: string;
+	comment: string;
+	email: string;
   expirationDate: string;
   userId: string;
   refreshKeys: Function;
@@ -60,6 +61,8 @@ const validateInput = (
 
 const GenerateKeySubmitBtn = ({
   algorithm,
+	comment,
+	email,
   expirationDate,
   userId,
   refreshKeys,
@@ -75,8 +78,7 @@ const GenerateKeySubmitBtn = ({
       return;
     }
     setLoading(true);
-    generateKeypair(userId, algorithm, expirationDate)
-      .then((response: Response) => console.log(response))
+    generateKeypair(userId, email, comment, algorithm, expirationDate)
       .then((response: any) => {
         console.log(response);
         setLoading(false);

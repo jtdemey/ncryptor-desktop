@@ -5,6 +5,7 @@ import styled from "styled-components";
 type DropdownProps = {
   animationDuration?: number;
   label: string;
+	noSelectionsText?: string;
   selectedValue: string | number;
   selections: [any, string][];
   setValue: Function;
@@ -53,6 +54,7 @@ const Dropdown = ({
 	animationDuration,
   selections,
   label,
+	noSelectionsText = "No keys found",
   setValue,
   subLabel,
   selectedValue
@@ -76,12 +78,16 @@ const Dropdown = ({
         transition={{ duration: animationDuration ?? 0, ease: "easeOut" }}
         value={selectedValue}
       >
-        {selections.length &&
+        {selections.length > 0 ? 
           selections.map((pair: [any, string]) => (
             <option key={pair[0]} value={pair[1]}>
               {pair[1]}
             </option>
-          ))}
+          )) : (
+						<option>
+							{noSelectionsText}
+						</option>
+					)}
       </Select>
     </>
   );

@@ -56,8 +56,9 @@ fn decrypt(text: &str) -> String {
 fn delete_private_key(fingerprint: &str) -> String {
     let output = Command::new("gpg")
         .args([
-            "--delete-secret-key",
+						"--batch",
             "--yes",
+            "--delete-secret-key",
             &fingerprint,
         ])
         .output()
@@ -70,6 +71,7 @@ fn delete_public_key(fingerprint: &str) -> String {
     let output = Command::new("gpg")
         .args([
             "--delete-key",
+						"--batch",
             "--yes",
             &fingerprint,
         ])

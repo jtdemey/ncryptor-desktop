@@ -36,12 +36,12 @@ const EncryptView = ({
     [publicKeys, setRecipient],
   );
 
-  const senderFingerprint = privateKeys.filter(
+  const senderFingerprint = privateKeys.find(
     (key: PrivateKey) => displayKeyName(key) === currentUser,
-  )[0]?.fingerprint;
-  const recipientFingerprint = publicKeys.filter(
+  )?.fingerprint;
+  const recipientFingerprint = publicKeys.find(
     (key: PublicKey) => displayKeyName(key) === recipient,
-  )[0]?.fingerprint;
+  )?.fingerprint;
 
   return (
     <SectionCard>
