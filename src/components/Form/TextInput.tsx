@@ -43,7 +43,7 @@ const TextInput = ({
   maximum,
   label,
   value
-}: TextInputProps): JSX.Element => {
+}: TextInputProps) => {
   const inputRef = React.useRef<HTMLInputElement>(null);
   React.useEffect(() => {
     if (autoFocus && inputRef.current) {

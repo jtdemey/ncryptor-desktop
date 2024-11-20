@@ -15,7 +15,7 @@ const Button = styled.div`
   z-index: 1;
 `;
 
-const BackBtn = ({ clickFunc }: BackBtnProps): JSX.Element => (
+const BackBtn = ({ clickFunc }: BackBtnProps) => (
   <Button>
     <FontAwesomeIcon
       icon={faArrowCircleLeft}

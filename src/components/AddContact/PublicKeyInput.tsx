@@ -35,7 +35,7 @@ const TextArea = styled(motion.textarea)`
 const PublicKeyInput = ({
   setText,
   text
-}: PublicKeyInputProps): JSX.Element => {
+}: PublicKeyInputProps) => {
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
     setText(e.target.value);
   return (

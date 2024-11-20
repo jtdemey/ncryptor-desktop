@@ -36,7 +36,7 @@ const KeyDetailsView = ({
   refreshKeys,
   setErrorText,
   setView
-}: KeyDetailsViewProps): JSX.Element => {
+}: KeyDetailsViewProps) => {
   const [showingModal, setShowingModal] = React.useState(false);
   return (
     <Container>

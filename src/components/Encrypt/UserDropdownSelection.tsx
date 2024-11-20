@@ -13,7 +13,7 @@ const UserDropdownSelection = ({
   currentSelection,
   keys,
   setSelection,
-}: UserDropdownSelectionProps): JSX.Element => {
+}: UserDropdownSelectionProps) => {
   const displayNames: [string, string][] = keys.map(
     (key: PrivateKey | PublicKey) => [
       key.fingerprint.substring(

@@ -16,7 +16,7 @@ const Text = styled.h5`
   font-size: 0.9rem;
 `;
 
-const KeysListLegend = (): JSX.Element => (
+const KeysListLegend = () => (
 	<Container>
 		<Text style={{ textAlign: "left" }}>User ID</Text>
 		<Text style={{ textAlign: "left" }}>Fingerprint</Text>

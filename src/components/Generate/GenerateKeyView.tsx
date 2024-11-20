@@ -12,7 +12,7 @@ const GenerateKeyView = ({
   refreshKeys,
   setErrorText,
   setView
-}: GenerateKeyViewProps): JSX.Element => (
+}: GenerateKeyViewProps) => (
   <SectionCard>
     <GenerateKeyForm
       refreshKeys={refreshKeys}

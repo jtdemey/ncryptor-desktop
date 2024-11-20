@@ -14,7 +14,7 @@ const Container = styled(motion.div)`
   padding: 1rem 2rem;
 `;
 
-const SectionCard = ({ backgroundColor, children }: SectionCardProps): JSX.Element => (
+const SectionCard = ({ backgroundColor, children }: SectionCardProps) => (
   <Container
     animate={{ opacity: [0, 1], x: [-20, 0] }}
 		style={{ background: backgroundColor ?? "none" }}

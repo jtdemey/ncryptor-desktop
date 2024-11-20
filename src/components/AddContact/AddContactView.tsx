@@ -12,7 +12,7 @@ const AddContactView = ({
   refreshContacts,
   setErrorText,
   setView
-}: AddContactViewProps): JSX.Element => (
+}: AddContactViewProps) => (
   <SectionCard>
     <AddContactForm
       refreshContacts={refreshContacts}

@@ -35,7 +35,7 @@ const getKeyAngle = (keyIndex: number, keyCount: number, subtractHalfRotation: b
 	return `${angle * (keyIndex + 1) - (subtractHalfRotation ? 45 : 0)}deg`;
 };
 
-const Keyring = ({ privateKeys }: KeyringProps): JSX.Element => {
+const Keyring = ({ privateKeys }: KeyringProps) => {
   return (
     <Container>
       <Ring />

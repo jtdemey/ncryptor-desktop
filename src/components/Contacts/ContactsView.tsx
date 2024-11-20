@@ -39,7 +39,7 @@ const ContactsView = ({
   refreshContacts,
   selectKey,
   setView
-}: ContactsViewProps): JSX.Element => {
+}: ContactsViewProps) => {
   const [loading, setLoading] = React.useState(false);
   const refreshHandler = () => {
     setLoading(true);

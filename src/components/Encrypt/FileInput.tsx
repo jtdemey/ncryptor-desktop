@@ -34,7 +34,7 @@ const SelectedFileSpan = styled.span`
   font-weight: normal;
 `;
 
-const FileInput = ({ setText }: FileInputProps): JSX.Element => {
+const FileInput = ({ setText }: FileInputProps) => {
   const [selectedFile, setSelectedFile] = React.useState<File>();
   const inputRef = React.useRef<HTMLInputElement>(null);
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

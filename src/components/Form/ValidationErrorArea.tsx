@@ -18,7 +18,7 @@ const ErrorLine = styled.h5`
 
 const ValidationErrorArea = ({
   errors
-}: ValidationErrorAreaProps): JSX.Element => (
+}: ValidationErrorAreaProps) => (
   <Container style={{ border: errors.length > 0 ? "2px solid #7e1b1b" : "none" }}>
     {errors.map(err => (
       <ErrorLine key={err}>{err}</ErrorLine>

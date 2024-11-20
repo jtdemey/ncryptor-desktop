@@ -11,7 +11,7 @@ const SenderSelection = ({
   currentUser,
   privateKeys,
   setCurrentUser,
-}: SenderSelectionProps): JSX.Element => {
+}: SenderSelectionProps) => {
   return (
     <UserDropdownSelection
       currentSelection={currentUser}

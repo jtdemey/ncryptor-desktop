@@ -13,7 +13,7 @@ type DecryptViewProps = {
 const DecryptView = ({
   currentUser,
   privateKeys,
-}: DecryptViewProps): JSX.Element => {
+}: DecryptViewProps) => {
   const recipientFingerprint = privateKeys.filter(
     (key: PrivateKey) => displayKeyName(key) === currentUser
   )[0]?.fingerprint;

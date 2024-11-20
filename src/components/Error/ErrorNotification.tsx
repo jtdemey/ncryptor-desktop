@@ -31,7 +31,7 @@ const Container = styled(motion.article)`
 const ErrorNotification = ({
   setErrorText,
   text
-}: ErrorNotificationProps): JSX.Element => {
+}: ErrorNotificationProps) => {
   const [visible, setVisible] = React.useState(false);
   const hasErrorText = text && text !== "";
   React.useEffect(() => {

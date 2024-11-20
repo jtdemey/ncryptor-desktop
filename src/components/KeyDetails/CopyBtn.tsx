@@ -18,7 +18,7 @@ const Container = styled.div`
   font-size: 1.25rem;
 `;
 
-const CopyBtn = ({ color, value }: CopyBtnProps): JSX.Element => {
+const CopyBtn = ({ color, value }: CopyBtnProps) => {
   const [copied, setCopied] = React.useState(false);
   const btnColor = color ?? "hsl(0, 0%, 5%)";
   React.useEffect(() => {

@@ -14,7 +14,7 @@ const Header = styled.h2`
   text-align: center;
 `;
 
-const NoKeysHeader = ({ isPrivate, text }: NoKeysHeaderProps): JSX.Element => (
+const NoKeysHeader = ({ isPrivate, text }: NoKeysHeaderProps) => (
   <Header>{text || `No ${isPrivate ? "private" : "public"} keys found`}</Header>
 );
 

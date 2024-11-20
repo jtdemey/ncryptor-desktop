@@ -15,7 +15,7 @@ const Container = styled.div`
   font-size: 1.25rem;
 `;
 
-const SettingsGear = ({ setView }: SettingsGearProps): JSX.Element => (
+const SettingsGear = ({ setView }: SettingsGearProps) => (
   <Container onClick={() => setView(AppViews.Settings)}>
     <FontAwesomeIcon
       icon={faCog}

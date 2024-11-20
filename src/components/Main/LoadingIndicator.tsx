@@ -1,4 +1,3 @@
-import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const speen = keyframes`
@@ -32,7 +31,7 @@ const InnerWheel = styled.div`
   animation: ${speen} 2.4s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 `;
 
-const LoadingIndicator = (): JSX.Element => {
+const LoadingIndicator = () => {
   return (
     <Wheel>
       <InnerWheel />

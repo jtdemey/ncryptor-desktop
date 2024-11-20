@@ -57,7 +57,7 @@ const RadioBtnGroup = ({
   selections,
   selectedValue,
   selectValue
-}: RadioBtnGroupProps): JSX.Element => {
+}: RadioBtnGroupProps) => {
   return (
     <>
       <Label

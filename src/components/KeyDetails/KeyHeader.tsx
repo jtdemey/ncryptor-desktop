@@ -44,7 +44,7 @@ const KeyHeader = ({
   color,
   fingerprint,
   isKeyPrivate
-}: KeyHeaderProps): JSX.Element => (
+}: KeyHeaderProps) => (
   <Container>
     <PrivacyLabel
       animate={{ opacity: [0, 1], x: [-20, 0] }}

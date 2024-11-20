@@ -22,7 +22,7 @@ const KeyPropertyValue = ({
   color,
   showCopyBtn,
   text
-}: KeyPropertyValueProps): JSX.Element => (
+}: KeyPropertyValueProps) => (
   <Value
     animate={{ opacity: [0, 1], x: [-10, 0] }}
     transition={{ delay: animationDelay ?? 0.25, duration: 0.45, ease: "easeOut" }}

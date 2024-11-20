@@ -39,7 +39,7 @@ const KeyringView = ({
   refreshKeys,
   selectKey,
   setView
-}: KeyringViewProps): JSX.Element => {
+}: KeyringViewProps) => {
   const [loading, setLoading] = React.useState(false);
   const refreshHandler = () => {
     setLoading(true);

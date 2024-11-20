@@ -7,7 +7,7 @@ type DeleteKeyBtnProps = {
   showModal: Function;
 };
 
-const DeleteKeyBtn = ({ showModal }: DeleteKeyBtnProps): JSX.Element => (
+const DeleteKeyBtn = ({ showModal }: DeleteKeyBtnProps) => (
   <Button
     onClick={() => showModal()}
     style={{

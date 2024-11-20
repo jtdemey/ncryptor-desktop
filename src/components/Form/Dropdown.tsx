@@ -58,7 +58,8 @@ const Dropdown = ({
   setValue,
   subLabel,
   selectedValue
-}: DropdownProps): JSX.Element => {
+}: DropdownProps) => {
+	console.log(selections);
   return (
     <>
       {label && (

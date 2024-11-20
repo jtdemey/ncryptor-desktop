@@ -20,7 +20,7 @@ const Button = styled.div`
 	text-align: center;
 `;
 
-const CancelCreateBtn = ({ clickFunc }: CancelCreateBtnProps): JSX.Element => {
+const CancelCreateBtn = ({ clickFunc }: CancelCreateBtnProps) => {
   return <Button onClick={() => clickFunc()}>Cancel</Button>;
 };
 

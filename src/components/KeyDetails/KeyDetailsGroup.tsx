@@ -16,7 +16,7 @@ const KeyDetailsGroup = ({
   labelText,
   showCopyBtn,
   valueText
-}: KeyDetailsGroupProps): JSX.Element => (
+}: KeyDetailsGroupProps) => (
   <article>
     <KeyPropertyLabel text={labelText} />
     <KeyPropertyValue

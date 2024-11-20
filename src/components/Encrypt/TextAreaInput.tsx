@@ -48,7 +48,7 @@ const TextAreaInput = ({
   currentUser,
   encryptMode,
   recipient,
-}: TextAreaInputProps): JSX.Element => {
+}: TextAreaInputProps) => {
   const dimensions = useWindowDimensions();
   const [text, setText] = React.useState("");
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>

@@ -69,7 +69,7 @@ const GenerateKeySubmitBtn = ({
   setErrorText,
   setValidationErrors,
   setView
-}: GenerateKeySubmitBtnProps): JSX.Element => {
+}: GenerateKeySubmitBtnProps) => {
   const [loading, setLoading] = React.useState(false);
   const clickFunc = () => {
     const validationErrors = validateInput(algorithm, expirationDate, userId);

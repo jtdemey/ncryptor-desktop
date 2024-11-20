@@ -70,7 +70,7 @@ const Container = styled.div`
   );
 `;
 
-const NcryptorApp = (): JSX.Element => {
+const NcryptorApp = () => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const dispatchSetError = (message: string) => dispatch(setErrorText(message));
   const dispatchSetView = (view: AppViews) => dispatch(setView(view));

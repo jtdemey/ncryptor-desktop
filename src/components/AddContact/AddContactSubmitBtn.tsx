@@ -18,7 +18,7 @@ const AddContactSubmitBtn = ({
   setErrorText,
   setPublicKeyText,
   setView
-}: AddContactSubmitBtnProps): JSX.Element => {
+}: AddContactSubmitBtnProps) => {
   const [loading, setLoading] = React.useState(false);
   const clickFunc = () => {
     setLoading(true);

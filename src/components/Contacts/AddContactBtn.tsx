@@ -12,7 +12,7 @@ type AddContactBtnProps = {
 const AddContactBtn = ({
   setView,
   text
-}: AddContactBtnProps): JSX.Element => (
+}: AddContactBtnProps) => (
   <Button onClick={() => setView(AppViews.CreateContact)}>
     <SvgSpan>
       <FontAwesomeIcon

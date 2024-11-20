@@ -14,7 +14,7 @@ const Title = styled.h1`
   letter-spacing: 0.5rem;
 `;
 
-const Header = (): JSX.Element => (
+const Header = () => (
   <Banner>
     <Title>NCRYPTOR</Title>
   </Banner>

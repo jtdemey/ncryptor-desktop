@@ -25,7 +25,7 @@ const getDisplayFingerprint = (fingerprint: string): string =>
 const ContactsList = ({
   contacts,
   selectKey
-}: ContactsListProps): JSX.Element => {
+}: ContactsListProps) => {
   return (
     <>
       <KeysListLegend />

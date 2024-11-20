@@ -42,7 +42,7 @@ const NavBtn = ({
   id,
   svgSrc,
   text
-}: NavBtnProps): JSX.Element => {
+}: NavBtnProps) => {
   const isFocused = currentView === id;
   const borderStyle = `${
     isFocused ? "0.3rem" : "0.15rem"

@@ -25,7 +25,7 @@ const Button = styled.div`
 const CopyTextAreaBtn = ({
   value,
   visible
-}: CopyTextAreaBtnProps): JSX.Element => {
+}: CopyTextAreaBtnProps) => {
   const [copied, setCopied] = React.useState(false);
   React.useEffect(() => {
     if (copied) {

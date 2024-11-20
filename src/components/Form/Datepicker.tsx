@@ -39,7 +39,7 @@ const Datepicker = ({
   changeHandler,
   label,
   value
-}: DatepickerProps): JSX.Element => {
+}: DatepickerProps) => {
   return (
     <>
       <Label

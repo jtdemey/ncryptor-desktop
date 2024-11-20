@@ -19,7 +19,7 @@ const Text = styled.h6`
   text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.2);
 `;
 
-const SelectionLabel = ({ text }: SelectionLabelProps): JSX.Element => (
+const SelectionLabel = ({ text }: SelectionLabelProps) => (
   <Container>
     <Text>{text}</Text>
   </Container>

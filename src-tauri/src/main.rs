@@ -119,7 +119,7 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
 #[tauri::command]
 fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
     let output = Command::new("gpg")
-        .args(["--quick-gen-key", &user_id, algorithm, "-", expiration])
+        .args(["--quick-gen-key", &user_id, algorithm, "scea", expiration])
         .output()
         .expect("failed to generate key");
     return format!("{}", String::from_utf8_lossy(&output.stdout));

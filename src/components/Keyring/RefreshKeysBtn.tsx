@@ -7,7 +7,7 @@ type RefreshKeysBtnProps = {
   refreshKeys: Function;
 };
 
-const RefreshKeysBtn = ({ refreshKeys }: RefreshKeysBtnProps): JSX.Element => (
+const RefreshKeysBtn = ({ refreshKeys }: RefreshKeysBtnProps) => (
   <Button onClick={() => refreshKeys()}>
     <SvgSpan>
       <FontAwesomeIcon

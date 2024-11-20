@@ -11,7 +11,7 @@ const RecipientSelection = ({
   publicKeys,
   recipient,
   setRecipient,
-}: RecipientSelectionProps): JSX.Element => {
+}: RecipientSelectionProps) => {
   return (
     <UserDropdownSelection
       currentSelection={recipient}

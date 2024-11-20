@@ -56,7 +56,7 @@ const Bar = styled.div`
 	}
 `;
 
-const NavBar = ({ view, setView }: NavBarProps): JSX.Element => (
+const NavBar = ({ view, setView }: NavBarProps) => (
   <Container>
     <Bar>
       {navBtns.map((btn) => (

@@ -65,7 +65,7 @@ const getDisplayFingerprint = (fingerprint: string): string =>
 const PrivateKeysList = ({
   privateKeys,
   selectKey
-}: PrivateKeysListProps): JSX.Element => {
+}: PrivateKeysListProps) => {
   return (
     <>
       <KeysListLegend />

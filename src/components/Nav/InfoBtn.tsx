@@ -15,7 +15,7 @@ const Container = styled.div`
   font-size: 1.25rem;
 `;
 
-const InfoBtn = ({ setView }: InfoBtnProps): JSX.Element => (
+const InfoBtn = ({ setView }: InfoBtnProps) => (
   <Container onClick={() => setView(AppViews.Info)}>
     <FontAwesomeIcon
       icon={faInfoCircle}

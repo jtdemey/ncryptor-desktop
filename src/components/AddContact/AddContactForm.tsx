@@ -16,7 +16,7 @@ const AddContactForm = ({
   refreshContacts,
   setErrorText,
   setView
-}: AddContactFormProps): JSX.Element => {
+}: AddContactFormProps) => {
   const [publicKeyText, setPublicKeyText] = React.useState("");
   return (
     <Container>

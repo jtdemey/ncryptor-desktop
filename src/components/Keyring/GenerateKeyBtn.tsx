@@ -37,7 +37,7 @@ export const TextSpan = styled.h3`
 const GenerateKeyBtn = ({
   setView,
   text
-}: GenerateKeyBtnProps): JSX.Element => (
+}: GenerateKeyBtnProps) => (
   <Button onClick={() => setView(AppViews.GenerateKey)}>
     <SvgSpan>
       <FontAwesomeIcon

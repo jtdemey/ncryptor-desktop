@@ -45,7 +45,7 @@ const GenerateKeyForm = ({
   refreshKeys,
   setErrorText,
   setView,
-}: GenerateKeyFormProps): JSX.Element => {
+}: GenerateKeyFormProps) => {
   const initialOptions: [string, string][] = [
     ds("rsa4096"),
     ds("rsa2048"),

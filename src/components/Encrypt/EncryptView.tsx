@@ -2,12 +2,13 @@ import React from "react";
 // @ts-ignore TS7016
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import TextAreaInput from "./TextAreaInput";
-import SectionCard from "../Main/SectionCard";
 import { PrivateKey, PublicKey } from "../Main/NcryptorApp";
-import RecipientSelection from "./RecipientSelection";
-import SenderSelection from "./SenderSelection";
+import MessageBox from "../Main/MessageBox";
+import SectionCard from "../Main/SectionCard";
 import SelectionLabel from "./SelectionLabel";
+import SenderSelection from "./SenderSelection";
+import RecipientSelection from "./RecipientSelection";
+import TextAreaInput from "./TextAreaInput";
 import { displayKeyName } from "../../utils/StringFormatters";
 
 type EncryptViewProps = {
@@ -27,7 +28,7 @@ const EncryptView = ({
   privateKeys,
   publicKeys,
   setCurrentUser,
-}: EncryptViewProps): JSX.Element => {
+}: EncryptViewProps) => {
   const [recipient, setRecipient] = React.useState(
     publicKeys.length ? publicKeys[0].userIds[0]?.name ?? "" : "",
   );
@@ -42,9 +43,13 @@ const EncryptView = ({
   const recipientFingerprint = publicKeys.find(
     (key: PublicKey) => displayKeyName(key) === recipient,
   )?.fingerprint;
+	console.log(privateKeys);
 
   return (
     <SectionCard>
+			{privateKeys.length < 1 && (
+				<MessageBox text="No private keys found. New keys can be generated from the Keyring view." />
+			)}
       <InputRow
         animate={{ x: [-50, 0] }}
         transition={{ duration: 0.25, ease: "easeOut" }}
@@ -54,7 +59,7 @@ const EncryptView = ({
           currentUser={currentUser}
           privateKeys={privateKeys}
           setCurrentUser={setCurrentUser}
-        />
+				/>
       </InputRow>
       <InputRow
         animate={{ x: [-40, 0] }}
