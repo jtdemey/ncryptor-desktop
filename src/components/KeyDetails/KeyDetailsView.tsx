@@ -88,7 +88,7 @@ const KeyDetailsView = ({
             labelText="Abridged fingerprint"
             showCopyBtn={true}
             valueText={currentKey.fingerprint.substring(
-              currentKey.fingerprint.length - 8,
+              currentKey.fingerprint.length - 16,
               currentKey.fingerprint.length
             )}
           />

@@ -30,7 +30,7 @@ export const ListItem = styled(motion.li)`
 
 export const TextContainer = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   text-shadow: -2px 2px 1px #111;
 `;
 
@@ -39,7 +39,6 @@ export const UserIdLabel = styled.div`
   align-items: center;
   justify-content: left;
   font-family: "Lora", serif;
-  text-align: left;
 `;
 
 export const KeyThumbprint = styled.div`
@@ -47,7 +46,6 @@ export const KeyThumbprint = styled.div`
   align-items: center;
   justify-content: left;
   font-family: "Lato", sans-serif;
-  text-align: left;
 `;
 
 export const KeyTypeLabel = styled.div`
@@ -56,7 +54,6 @@ export const KeyTypeLabel = styled.div`
   color: #c2cfd6;
   font-family: "Lato", sans-serif;
   font-size: 1.1rem;
-  text-align: center;
 `;
 
 const getDisplayFingerprint = (fingerprint: string): string =>
@@ -79,7 +76,7 @@ const PrivateKeysList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(displayKeyName(privateKey), 16)}</UserIdLabel>
+              <UserIdLabel>{applyEllipsis(displayKeyName(privateKey), 36)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(privateKey.fingerprint)}
               </KeyThumbprint>

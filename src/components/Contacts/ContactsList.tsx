@@ -8,15 +8,12 @@ import {
   KeyTypeLabel
 } from "../Keyring/PrivateKeysList";
 import KeysListLegend from "../Keyring/KeysListLegend";
-import { displayKeyName } from "../../utils/StringFormatters";
+import { applyEllipsis, displayKeyName } from "../../utils/StringFormatters";
 
 type ContactsListProps = {
   contacts: Array<PublicKey>;
   selectKey: Function;
 };
-
-const getDisplayUserId = (userId: string): string =>
-  userId.length > 9 ? `${userId.substring(0, 9)}...` : userId;
 
 const getDisplayFingerprint = (fingerprint: string): string =>
   fingerprint.substring(fingerprint.length - 8, fingerprint.length);
@@ -38,7 +35,7 @@ const ContactsList = ({
             transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
           >
             <TextContainer>
-              <UserIdLabel>{getDisplayUserId(displayKeyName(contact))}</UserIdLabel>
+              <UserIdLabel>{applyEllipsis(displayKeyName(contact), 36)}</UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(contact.fingerprint)}
               </KeyThumbprint>

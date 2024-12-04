@@ -22,12 +22,12 @@ fn write_file(file_name: &str, content: &str) {
 
 #[tauri::command]
 fn decrypt(text: &str) -> String {
-		let filesnames_to_delete = vec!["d.txt", "d.txt.gpg"];
-		for f in &filesnames_to_delete {
-			if Path::new(f).exists() {
-					delete_file(f);
-			}
-		}
+    let filesnames_to_delete = vec!["d.txt", "d.txt.gpg"];
+    for f in &filesnames_to_delete {
+        if Path::new(f).exists() {
+                delete_file(f);
+        }
+    }
 
     write_file("d.txt.gpg", text);
 
@@ -89,12 +89,12 @@ fn delete_public_key(fingerprint: &str) -> String {
 
 #[tauri::command]
 fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
-		let filesnames_to_delete = vec!["m.txt", "m.txt.asc"];
-		for f in &filesnames_to_delete {
-			if Path::new(f).exists() {
-					delete_file(f);
-			}
-		}
+    let filesnames_to_delete = vec!["m.txt", "m.txt.asc"];
+    for f in &filesnames_to_delete {
+        if Path::new(f).exists() {
+                delete_file(f);
+        }
+    }
 
     write_file("m.txt", text);
 
