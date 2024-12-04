@@ -1,4 +1,3 @@
-import React from "react";
 import KeyPropertyLabel from "./KeyPropertyLabel";
 import KeyPropertyValue from "./KeyPropertyValue";
 

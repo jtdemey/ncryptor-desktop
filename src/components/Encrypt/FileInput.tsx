@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
@@ -35,8 +35,8 @@ const SelectedFileSpan = styled.span`
 `;
 
 const FileInput = ({ setText }: FileInputProps) => {
-  const [selectedFile, setSelectedFile] = React.useState<File>();
-  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [selectedFile, setSelectedFile] = useState<File>();
+  const inputRef = useRef<HTMLInputElement>(null);
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target && e.target.files) {
       const file = e.target.files[0];

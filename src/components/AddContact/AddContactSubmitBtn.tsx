@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import { Button } from "../Generate/GenerateKeySubmitBtn";
 import { executeFetch } from "../../client/ApiClient";
 import { handleGpgError } from "../../client/ErrorHandlers";
@@ -19,7 +19,7 @@ const AddContactSubmitBtn = ({
   setPublicKeyText,
   setView
 }: AddContactSubmitBtnProps) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const clickFunc = () => {
     setLoading(true);
     executeFetch("importkey", { publicKey })

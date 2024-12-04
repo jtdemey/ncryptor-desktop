@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 // @ts-ignore TS7016
 import { motion } from "framer-motion";
 import styled from "styled-components";
@@ -29,10 +29,10 @@ const EncryptView = ({
   publicKeys,
   setCurrentUser,
 }: EncryptViewProps) => {
-  const [recipient, setRecipient] = React.useState(
+  const [recipient, setRecipient] = useState(
     publicKeys.length ? publicKeys[0].userIds[0]?.name ?? "" : "",
   );
-  React.useEffect(
+  useEffect(
     () => setRecipient(publicKeys.length ? displayKeyName(publicKeys[0]) : ""),
     [publicKeys, setRecipient],
   );

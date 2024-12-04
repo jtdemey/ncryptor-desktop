@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { faCheck, faCopy } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -26,8 +26,8 @@ const CopyTextAreaBtn = ({
   value,
   visible
 }: CopyTextAreaBtnProps) => {
-  const [copied, setCopied] = React.useState(false);
-  React.useEffect(() => {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
     if (copied) {
       const copiedInterval = setTimeout(() => {
         setCopied(false);

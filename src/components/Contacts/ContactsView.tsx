@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { PublicKey } from "../Main/NcryptorApp";
 import SectionCard from "../Main/SectionCard";
@@ -40,7 +40,7 @@ const ContactsView = ({
   selectKey,
   setView
 }: ContactsViewProps) => {
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
   const refreshHandler = () => {
     setLoading(true);
     refreshContacts();

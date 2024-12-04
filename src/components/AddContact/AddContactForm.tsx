@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import BackBtn from "../Main/BackBtn";
 import AddContactSubmitBtn from "./AddContactSubmitBtn";
 import PublicKeyInput from "./PublicKeyInput";
@@ -17,7 +17,7 @@ const AddContactForm = ({
   setErrorText,
   setView
 }: AddContactFormProps) => {
-  const [publicKeyText, setPublicKeyText] = React.useState("");
+  const [publicKeyText, setPublicKeyText] = useState("");
   return (
     <Container>
       <BackBtn clickFunc={() => setView(AppViews.Contacts)} />

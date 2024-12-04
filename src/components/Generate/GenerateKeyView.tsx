@@ -1,4 +1,3 @@
-import React from "react";
 import SectionCard from "../Main/SectionCard";
 import GenerateKeyForm from "./GenerateKeyForm";
 
