@@ -59,7 +59,6 @@ const Dropdown = ({
   subLabel,
   selectedValue
 }: DropdownProps) => {
-	console.log(selections);
   return (
     <>
       {label && (

@@ -1,19 +1,5 @@
 import { invokeTauriCommand } from "./invokeTauriCommand";
 
-/*
-1
-key size
-subkey size
-expiry
-confirmation y/N
-userId
-email
-comment
-Change Name Comment Email or Okay/Quit
-Entropy time
-DONE!
-*/
-
 const constructUserId = (userId: string, email: string, comment: string): string => {
 	let result = userId;
 	if (comment) {

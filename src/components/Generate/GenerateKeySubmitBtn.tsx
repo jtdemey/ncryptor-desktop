@@ -77,6 +77,7 @@ const GenerateKeySubmitBtn = ({
       setValidationErrors(validationErrors);
       return;
     }
+		console.log(email);
     setLoading(true);
     generateKeypair(userId, email, comment, algorithm, expirationDate)
       .then((response: any) => {

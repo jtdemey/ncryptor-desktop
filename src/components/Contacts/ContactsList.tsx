@@ -1,4 +1,3 @@
-import React from "react";
 import { PublicKey } from "./../Main/NcryptorApp";
 import {
   List,

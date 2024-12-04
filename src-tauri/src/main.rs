@@ -22,6 +22,13 @@ fn write_file(file_name: &str, content: &str) {
 
 #[tauri::command]
 fn decrypt(text: &str) -> String {
+		let filesnames_to_delete = vec!["d.txt", "d.txt.gpg"];
+		for f in &filesnames_to_delete {
+			if Path::new(f).exists() {
+					delete_file(f);
+			}
+		}
+
     write_file("d.txt.gpg", text);
 
     Command::new("gpg")
@@ -82,6 +89,13 @@ fn delete_public_key(fingerprint: &str) -> String {
 
 #[tauri::command]
 fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
+		let filesnames_to_delete = vec!["m.txt", "m.txt.asc"];
+		for f in &filesnames_to_delete {
+			if Path::new(f).exists() {
+					delete_file(f);
+			}
+		}
+
     write_file("m.txt", text);
 
     let gpg_output = Command::new("gpg")
@@ -119,7 +133,7 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
 #[tauri::command]
 fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
     let output = Command::new("gpg")
-        .args(["--quick-gen-key", &user_id, algorithm, "scea", expiration])
+        .args(["--quick-gen-key", &user_id, algorithm, "auth,encr,sign", expiration])
         .output()
         .expect("failed to generate key");
     return format!("{}", String::from_utf8_lossy(&output.stdout));
