@@ -1,0 +1,20 @@
+# v1.0
+- Encrypt messages using available GPG public keys
+    - Supports importing a message from a text file
+- Decrypt messages with a click if corresponding private key available
+    - Supports importing a message from a text file
+- List private keys (Keyring view)
+- List public keys (Contacts view)
+- View private and public key details, including:
+    - Fingerprint
+    - User IDs
+    - Created date
+    - Expiration date
+    - Key type
+- Generate RSA keypairs
+    - Selectable size: 1024, 2048, and 4096
+    - Supports comments
+    - Supports expiration date
+- Delete public and private keys with clear confirmation prompt
+- Import public key (Add contact view)
+    - Supports importing from key file

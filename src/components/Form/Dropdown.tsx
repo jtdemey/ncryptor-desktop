@@ -7,7 +7,7 @@ type DropdownProps = {
   label: string;
 	noSelectionsText?: string;
   selectedValue: string | number;
-  selections: [any, string][];
+  selections: string[][];
   setValue: Function;
   subLabel?: string;
 };
@@ -79,7 +79,7 @@ const Dropdown = ({
         value={selectedValue}
       >
         {selections.length > 0 ? 
-          selections.map((pair: [any, string]) => (
+          selections.map((pair: string[]) => (
             <option key={pair[0]} value={pair[1]}>
               {pair[1]}
             </option>

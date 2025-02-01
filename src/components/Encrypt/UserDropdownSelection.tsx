@@ -14,7 +14,7 @@ const UserDropdownSelection = ({
   keys,
   setSelection,
 }: UserDropdownSelectionProps) => {
-  const displayNames: [string, string][] = keys.map(
+  const displayNames: string[][] = keys.map(
     (key: PrivateKey | PublicKey) => [
       key.fingerprint.substring(
         key.fingerprint.length - 8,

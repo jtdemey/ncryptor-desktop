@@ -43,7 +43,6 @@ const EncryptView = ({
   const recipientFingerprint = publicKeys.find(
     (key: PublicKey) => displayKeyName(key) === recipient,
   )?.fingerprint;
-	console.log(privateKeys);
 
   return (
     <SectionCard>

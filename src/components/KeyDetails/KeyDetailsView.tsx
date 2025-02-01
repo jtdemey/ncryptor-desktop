@@ -94,17 +94,17 @@ const KeyDetailsView = ({
           />
           <KeyDetailsGroup
             animationDelay={0.3}
-            labelText="Created Date"
+            labelText="Created date"
             valueText={currentKey.createdDate}
           />
           <KeyDetailsGroup
             animationDelay={0.4}
-            labelText="Expiration Date"
+            labelText="Expiration date"
             valueText={currentKey.expirationDate ?? "Never"}
           />
           <KeyDetailsGroup
             animationDelay={0.5}
-            labelText="Key Type"
+            labelText="Key type"
             valueText={currentKey.keyType}
           />
           <DeleteKeyBtn showModal={() => setShowingModal(true)} />

@@ -77,11 +77,9 @@ const GenerateKeySubmitBtn = ({
       setValidationErrors(validationErrors);
       return;
     }
-		console.log(email);
     setLoading(true);
     generateKeypair(userId, email, comment, algorithm, expirationDate)
       .then((response: any) => {
-        console.log(response);
         setLoading(false);
         if (handleGpgError(response, setErrorText)) {
           setView(AppViews.Keyring);

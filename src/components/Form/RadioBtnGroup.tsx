@@ -64,7 +64,7 @@ const RadioBtnGroup = ({
         animate={{ opacity: [0, 1] }}
         transition={{ duration: 1.05, ease: "easeOut" }}
       >
-        {label || "Expiration Date"}
+        {label || "Expiration date"}
       </Label>
       <Container>
         {selections.map(selection => (

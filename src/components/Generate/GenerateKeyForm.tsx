@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Dropdown from "../Form/Dropdown";
 import RadioBtnGroup from "../Form/RadioBtnGroup";
@@ -29,6 +29,19 @@ export const Header = styled.h2`
   text-align: center;
 `;
 
+export const Notice = styled.article`
+  margin: 0 auto 1.5rem;
+  padding: 8px;
+  background: #52796f;
+  border-radius: 8px;
+  color: #cad2c5;
+  font-family: "Lato", sans-serif;
+  font-size: 1.1rem;
+  & > a {
+    color: #00e600;
+  }
+`;
+
 export const BtnBar = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -51,16 +64,16 @@ const GenerateKeyForm = ({
     ds("rsa2048"),
     ds("rsa1024"),
   ];
-  const [dropdownOptions, _] = React.useState(initialOptions);
+  const [dropdownOptions, _] = useState(initialOptions);
 
-  const [userId, setUserId] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [comment, setComment] = React.useState("");
+  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
+  const [comment, setComment] = useState("");
 
-  const [selectedAlgorithm, setSelectedAlgorithm] = React.useState("rsa4096");
-  const [selectedDate, setSelectedDate] = React.useState("never");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("rsa4096");
+  const [selectedDate, setSelectedDate] = useState("never");
   const initialErrors: string[] = [];
-  const [validationErrors, setValidationErrors] = React.useState(initialErrors);
+  const [validationErrors, setValidationErrors] = useState(initialErrors);
   const radioSelections = ["1m", "2m", "6m", "1y", "never", "custom"];
 
   return (
@@ -68,6 +81,7 @@ const GenerateKeyForm = ({
       <BackBtn clickFunc={() => setView(AppViews.Keyring)} />
       <Header>Create a new keypair</Header>
       <ValidationErrorArea errors={validationErrors} />
+      <Notice>Are you creating a personal key? You may want to use a more modern approach similarly to what's documented <a href="https://www.gniibe.org/memo/software/gpg/keygen-25519.html">here</a>.</Notice>
       <TextInput
 				autoFocus
         changeHandler={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -104,7 +118,7 @@ const GenerateKeyForm = ({
         selectedValue={selectedAlgorithm}
       />
       <RadioBtnGroup
-        label="Expiration Date"
+        label="Expiration date"
         selections={radioSelections}
         selectedValue={selectedDate}
         selectValue={setSelectedDate}
