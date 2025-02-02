@@ -32,13 +32,16 @@ export const parseRow = (
   const recognizedKeyTypes = Object.keys(KeyTypes);
   const parentKeys = keysToCreate.filter(key => key.keyType === KeyTypes.pub || key.keyType === KeyTypes.sec);
   const currentParentKey = parentKeys[parentKeys.length - 1];
+
   if (recognizedKeyTypes.includes(delimitedRow[0])) {
     addKeyFromRow(keysToCreate, delimitedRow, currentParentKey);
   }
+
   const currentKey = keysToCreate[keysToCreate.length - 1];
   if (delimitedRow[0] === "fpr") {
     currentKey.fingerprint = delimitedRow[9];
   }
+
   if (delimitedRow[0] === "uid") {
     if (delimitedRow[9].indexOf("<") === -1) return;
     currentKey.userIds.push({

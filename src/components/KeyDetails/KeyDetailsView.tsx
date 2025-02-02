@@ -20,6 +20,19 @@ type KeyDetailsViewProps = {
   setView: Function;
 };
 
+const displayDate = (seconds: any): string => {
+  if (typeof seconds !== "string") {
+    return seconds;
+  }
+
+  const date = new Date(0, 0, 0, 0, 0, 0);
+  date.setUTCFullYear(1969);
+  date.setDate(date.getDate() + 1);
+  date.setSeconds(parseInt(seconds));
+  const dateStr = date.toDateString();
+  return dateStr === "Invalid Date" ? "Never" : dateStr;
+};
+
 const Container = styled.section`
   color: #cad2c5;
   font-family: "Lato", sans-serif;
@@ -95,12 +108,12 @@ const KeyDetailsView = ({
           <KeyDetailsGroup
             animationDelay={0.3}
             labelText="Created date"
-            valueText={currentKey.createdDate}
+            valueText={displayDate(currentKey.createdDate)}
           />
           <KeyDetailsGroup
             animationDelay={0.4}
             labelText="Expiration date"
-            valueText={currentKey.expirationDate ?? "Never"}
+            valueText={displayDate(currentKey.expirationDate) ?? "Never"}
           />
           <KeyDetailsGroup
             animationDelay={0.5}
