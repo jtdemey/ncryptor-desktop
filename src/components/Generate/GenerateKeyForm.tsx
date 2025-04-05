@@ -81,9 +81,13 @@ const GenerateKeyForm = ({
       <BackBtn clickFunc={() => setView(AppViews.Keyring)} />
       <Header>Create a new keypair</Header>
       <ValidationErrorArea errors={validationErrors} />
-      <Notice>Are you creating a personal key? You may want to use a more modern approach similarly to what's documented <a href="https://www.gniibe.org/memo/software/gpg/keygen-25519.html">here</a>.</Notice>
+      <Notice>
+        Are you creating a personal key? RSA will be deprecated in 2030. ED25519
+        is a modern alternative. <em>Ncryptor</em> supports usage of these keys,
+        but generating them is coming in a future version.
+      </Notice>
       <TextInput
-				autoFocus
+        autoFocus
         changeHandler={(e: React.ChangeEvent<HTMLInputElement>) =>
           setUserId(sanitizeInput(e.target.value))
         }
@@ -126,8 +130,8 @@ const GenerateKeyForm = ({
       <BtnBar>
         <GenerateKeySubmitBtn
           algorithm={selectedAlgorithm}
-					comment={comment}
-					email={email}
+          comment={comment}
+          email={email}
           expirationDate={selectedDate}
           userId={userId}
           refreshKeys={refreshKeys}
