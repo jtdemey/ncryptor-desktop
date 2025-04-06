@@ -83,7 +83,7 @@ const GenerateKeyForm = ({
       <ValidationErrorArea errors={validationErrors} />
       <Notice>
         Are you creating a personal key? RSA will be deprecated in 2030. ED25519
-        is a modern alternative. <em>Ncryptor</em> supports usage of these keys,
+        is a modern alternative. <em>Ncryptor</em> supports usage of ED25519,
         but generating them is coming in a future version.
       </Notice>
       <TextInput
