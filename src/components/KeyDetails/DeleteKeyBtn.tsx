@@ -11,7 +11,8 @@ const DeleteKeyBtn = ({ showModal }: DeleteKeyBtnProps) => (
     onClick={() => showModal()}
     style={{
       background: "hsl(354, 93%, 22%)",
-      border: "1px solid hsl(354, 93%, 22%)"
+      border: "1px solid hsl(354, 93%, 22%)",
+      maxWidth: "320px",
     }}
   >
     <SvgSpan>

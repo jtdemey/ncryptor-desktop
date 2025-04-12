@@ -12,6 +12,9 @@ Let's say *Sly* wants to send *Bentley* an address to meet at.
 
 1. They both download and run *Ncryptor* on their own machines, as well as their favorite unsecure messaging platform — say, [Discord](https://discordapp.com/).
 2. They each generate a short-lived RSA keypair from the Keyring view.
+
+![Key generation](public/media/generate.png "Generate key")
+
 3. Each RSA keypair has a **private key** (or **secret key**) and a **public key**. Sly and Bentley send each other their public keys over Discord.
 4. They import each other's public keys from the Contacts view.
 

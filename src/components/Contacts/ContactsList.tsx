@@ -5,7 +5,7 @@ import {
   TextContainer,
   UserIdLabel,
   KeyThumbprint,
-  KeyTypeLabel
+  KeyTypeLabel,
 } from "../Keyring/PrivateKeysList";
 import KeysListLegend from "../Keyring/KeysListLegend";
 import { applyEllipsis, displayKeyName } from "../../utils/StringFormatters";
@@ -18,10 +18,7 @@ type ContactsListProps = {
 const getDisplayFingerprint = (fingerprint: string): string =>
   fingerprint.substring(fingerprint.length - 8, fingerprint.length);
 
-const ContactsList = ({
-  contacts,
-  selectKey
-}: ContactsListProps) => {
+const ContactsList = ({ contacts, selectKey }: ContactsListProps) => {
   return (
     <>
       <KeysListLegend />
@@ -32,16 +29,19 @@ const ContactsList = ({
             key={contact.fingerprint}
             onClick={() => selectKey(contact.fingerprint, false)}
             style={{ borderLeft: `0.5rem solid ${contact.color}` }}
-            transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
+            transition={{
+              duration: Math.min(0.25 + 0.1 * i, 0.8),
+              ease: "easeOut",
+            }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(displayKeyName(contact), 36)}</UserIdLabel>
+              <UserIdLabel>
+                {applyEllipsis(displayKeyName(contact), 36)}
+              </UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(contact.fingerprint)}
               </KeyThumbprint>
-              <KeyTypeLabel>
-                {contact.keyType.toUpperCase()}
-              </KeyTypeLabel>
+              <KeyTypeLabel>{contact.keyType.toUpperCase()}</KeyTypeLabel>
             </TextContainer>
           </ListItem>
         ))}

@@ -12,7 +12,7 @@ type CopyBtnProps = {
 const Container = styled.div`
   display: inline-block;
   margin-left: 0.5rem;
-  padding: 0 0.25rem 0;
+  padding: 4px 8px;
   border-radius: 0.2rem;
   box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.45);
   font-size: 1.25rem;

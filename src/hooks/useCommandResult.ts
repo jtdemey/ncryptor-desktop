@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function useCommandResult<T>(
-  service: Function,
+  service: () => Promise<any>,
   onError: (e?: Error) => void = () => false,
   onSuccess: (value: any) => void = () => {},
 ): [any, () => void] {

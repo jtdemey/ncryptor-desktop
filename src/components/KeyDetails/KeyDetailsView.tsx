@@ -1,4 +1,4 @@
-import React from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import BackBtn from "../Main/BackBtn";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
@@ -11,6 +11,7 @@ import { PrivateKey } from "../Main/NcryptorApp";
 import { displayKeyName } from "../../utils/StringFormatters";
 import { deletePrivateKey } from "../../services/deletePrivateKey";
 import { deletePublicKey } from "../../services/deletePublicKey";
+import PublicKeyDetails from "./PublicKeyDetails";
 
 type KeyDetailsViewProps = {
   currentKey: PrivateKey;
@@ -18,6 +19,24 @@ type KeyDetailsViewProps = {
   refreshKeys: Function;
   setErrorText: Function;
   setView: Function;
+};
+
+const CAPABILITIES = {
+  a: "authenticate",
+  c: "certify",
+  e: "encrypt",
+  s: "sign",
+};
+
+const displayCapabilities = (capabilities: string): string => {
+  if (!capabilities) return "";
+  let result = "This key can: ";
+  Object.keys(CAPABILITIES).forEach(capabilityKey => {
+    if (capabilities.indexOf(capabilityKey) > -1) {
+      result += `${CAPABILITIES[capabilityKey]}, `;
+    }
+  });
+  return result.substring(0, result.length - 2);
 };
 
 const displayDate = (seconds: any): string => {
@@ -48,23 +67,23 @@ const KeyDetailsView = ({
   isKeyPrivate,
   refreshKeys,
   setErrorText,
-  setView
+  setView,
 }: KeyDetailsViewProps) => {
-  const [showingModal, setShowingModal] = React.useState(false);
+  const [showingModal, setShowingModal] = useState(false);
   return (
     <Container>
       <ConfirmDeleteModal
         onCancel={() => setShowingModal(false)}
         onConfirm={() => {
-					const onComplete = () => {
-						setShowingModal(false);
-						setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
-						refreshKeys();
-					};
+          const onComplete = () => {
+            setShowingModal(false);
+            setView(isKeyPrivate ? AppViews.Keyring : AppViews.Contacts);
+            refreshKeys();
+          };
           const service = isKeyPrivate ? deletePrivateKey : deletePublicKey;
-					service(currentKey.fingerprint)
-						.then(() => onComplete())
-						.catch(err => setErrorText(err));
+          service(currentKey.fingerprint)
+            .then(() => onComplete())
+            .catch(err => setErrorText(err));
         }}
         fingerprint={currentKey.fingerprint}
         isKeyPrivate={isKeyPrivate}
@@ -88,6 +107,17 @@ const KeyDetailsView = ({
             showCopyBtn={true}
             valueText={displayKeyName(currentKey)}
           />
+          {!isKeyPrivate && (
+            <PublicKeyDetails
+              currentKey={currentKey}
+              setErrorText={setErrorText}
+            />
+          )}
+          <KeyDetailsGroup
+            animationDelay={0.05}
+            labelText="Capabilities"
+            valueText={displayCapabilities(currentKey.capabilities)}
+          />
           <KeyDetailsGroup
             animationDelay={0.1}
             color={currentKey.color}
@@ -102,7 +132,7 @@ const KeyDetailsView = ({
             showCopyBtn={true}
             valueText={currentKey.fingerprint.substring(
               currentKey.fingerprint.length - 16,
-              currentKey.fingerprint.length
+              currentKey.fingerprint.length,
             )}
           />
           <KeyDetailsGroup

@@ -77,8 +77,7 @@ const NcryptorApp = () => {
 
   const [_, refreshPrivateKeys] = useCommandResult(
     getPrivateKeys,
-    (e?: Error | undefined) =>
-      dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
+    (e?) => dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
     (result: GetPrivateKeysResponse) => {
       dispatch(setPrivateKeys(result.keys));
       dispatch(setCurrentUser(displayKeyName(result.keys[0])));
@@ -86,8 +85,7 @@ const NcryptorApp = () => {
   );
   const [__, refreshPublicKeys] = useCommandResult(
     getPublicKeys,
-    (e?: Error | undefined) =>
-      dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
+    (e?) => dispatchSetError(e !== undefined ? e.toString() : "Unknown error"),
     (result: GetPublicKeysResponse) => {
       dispatch(setPublicKeys(result.keys));
     },

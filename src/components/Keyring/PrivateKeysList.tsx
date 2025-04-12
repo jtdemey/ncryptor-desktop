@@ -59,10 +59,7 @@ export const KeyTypeLabel = styled.div`
 const getDisplayFingerprint = (fingerprint: string): string =>
   fingerprint.substring(fingerprint.length - 8, fingerprint.length);
 
-const PrivateKeysList = ({
-  privateKeys,
-  selectKey
-}: PrivateKeysListProps) => {
+const PrivateKeysList = ({ privateKeys, selectKey }: PrivateKeysListProps) => {
   return (
     <>
       <KeysListLegend />
@@ -73,10 +70,15 @@ const PrivateKeysList = ({
             key={privateKey.fingerprint}
             onClick={() => selectKey(privateKey.fingerprint, true)}
             style={{ background: privateKey.color }}
-            transition={{ duration: 0.25 + 0.1 * i, ease: "easeOut" }}
+            transition={{
+              duration: Math.min(0.25 + 0.1 * i, 0.8),
+              ease: "easeOut",
+            }}
           >
             <TextContainer>
-              <UserIdLabel>{applyEllipsis(displayKeyName(privateKey), 36)}</UserIdLabel>
+              <UserIdLabel>
+                {applyEllipsis(displayKeyName(privateKey), 36)}
+              </UserIdLabel>
               <KeyThumbprint>
                 {getDisplayFingerprint(privateKey.fingerprint)}
               </KeyThumbprint>

@@ -155,6 +155,15 @@ fn get_public_keys() -> String {
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
 
+#[tauri::command]
+fn print_public_key(user: &str) -> String {
+    let output = Command::new("gpg")
+        .args(["--export", "--armor", user])
+        .output()
+        .expect("failed to export public key");
+    return format!("{}", String::from_utf8_lossy(&output.stdout));
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -167,7 +176,8 @@ pub fn run() {
             generate_keypair,
             get_gpg_version,
             get_private_keys,
-            get_public_keys
+            get_public_keys,
+            print_public_key,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
