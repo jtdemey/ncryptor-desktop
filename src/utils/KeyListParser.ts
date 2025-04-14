@@ -2,13 +2,16 @@ import { PrivateKey, PublicKey } from "../components/Main/NcryptorApp";
 import { KeyTypes } from "../data/KeyTypes";
 import { KeypairColors } from "../data/KeypairColors";
 
+export const isSubkey = (key: PrivateKey | PublicKey): boolean =>
+  key.keyType === KeyTypes.ssb || key.keyType === KeyTypes.sub;
+
 const addKeyFromRow = (
   keys: (PrivateKey | PublicKey)[],
   row: string[],
   currentParentKey: PrivateKey | PublicKey,
 ): void => {
   const keyColor = KeypairColors[keys.length % KeypairColors.length].value;
-  const isSubkey = row[0] === "ssb" || row[0] === "sub";
+  const isSub = row[0] === "ssb" || row[0] === "sub";
   keys.push({
     bitLength: parseInt(row[2]),
     capabilities: row[11],
@@ -18,9 +21,9 @@ const addKeyFromRow = (
     fingerprint: "",
     isDisabled: row[11].includes("d"),
     keyType: KeyTypes[row[0]],
-    parentKeyFingerprint: isSubkey ? currentParentKey.fingerprint : undefined,
+    parentKeyFingerprint: isSub ? currentParentKey.fingerprint : undefined,
     publicKeyAlgorithm: row[3],
-    userIds: isSubkey ? currentParentKey.userIds : [],
+    userIds: isSub ? currentParentKey.userIds : [],
     validity: row[1],
   });
 };
@@ -30,7 +33,9 @@ export const parseRow = (
   keysToCreate: (PrivateKey | PublicKey)[],
 ): void => {
   const recognizedKeyTypes = Object.keys(KeyTypes);
-  const parentKeys = keysToCreate.filter(key => key.keyType === KeyTypes.pub || key.keyType === KeyTypes.sec);
+  const parentKeys = keysToCreate.filter(
+    key => key.keyType === KeyTypes.pub || key.keyType === KeyTypes.sec,
+  );
   const currentParentKey = parentKeys[parentKeys.length - 1];
 
   if (recognizedKeyTypes.includes(delimitedRow[0])) {
@@ -56,7 +61,7 @@ export const parseKeyList = (
 ): (PrivateKey | PublicKey)[] => {
   const keysToCreate: (PrivateKey | PublicKey)[] = [];
   const keyListRows = keyListOutput.split("\n");
-  keyListRows.forEach((keyListRow) => {
+  keyListRows.forEach(keyListRow => {
     const delimitedRow = keyListRow.split(":");
     parseRow(delimitedRow, keysToCreate);
   });

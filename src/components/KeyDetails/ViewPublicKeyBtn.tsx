@@ -1,8 +1,7 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { Button, SvgSpan, TextSpan } from "../Keyring/GenerateKeyBtn";
 import { useState } from "react";
 import styled from "styled-components";
+import Button from "../Main/Button";
 
 type ViewPublicKeyBtnProps = {
   keyText: string;
@@ -18,22 +17,13 @@ const ViewPublicKeyBtn = ({ keyText }: ViewPublicKeyBtnProps) => {
   return (
     <>
       <Button
+        backgroundColor="hsl(324, 56%, 30%)"
+        borderColor="hsl(324, 36%, 10%)"
+        icon={isViewing ? faEyeSlash : faEye}
         onClick={() => setIsViewing(!isViewing)}
-        style={{
-          background: "hsl(324, 56%, 30%)",
-          border: "1px solid hsl(324, 36%, 10%)",
-          maxWidth: "320px",
-        }}
-      >
-        <SvgSpan>
-          <FontAwesomeIcon
-            icon={isViewing ? faEyeSlash : faEye}
-            width="16px"
-            style={{ transform: "translateY(0.1rem)" }}
-          />
-        </SvgSpan>
-        <TextSpan>{isViewing ? "Hide" : "View"} full key</TextSpan>
-      </Button>
+        style={{ maxWidth: "320px" }}
+        text={`${isViewing ? "Hide" : "View"} full key`}
+      />
       {isViewing && <Text>{keyText}</Text>}
     </>
   );

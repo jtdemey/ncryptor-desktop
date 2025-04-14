@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: auto 128px 128px 172px;
   width: 100%;
   border-bottom: 1px solid #111;
 `;
@@ -19,6 +19,7 @@ const KeysListLegend = () => (
   <Container>
     <Text>User ID</Text>
     <Text>Fingerprint</Text>
+    <Text>Can encrypt</Text>
     <Text>Type</Text>
   </Container>
 );

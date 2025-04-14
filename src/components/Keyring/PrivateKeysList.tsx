@@ -1,9 +1,8 @@
 // @ts-ignore
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import KeysListLegend from "./KeysListLegend";
 import { PrivateKey } from "./../Main/NcryptorApp";
-import { applyEllipsis, displayKeyName } from "../../utils/StringFormatters";
+import KeysList from "../Main/KeysList";
 
 type PrivateKeysListProps = {
   privateKeys: Array<PrivateKey>;
@@ -38,6 +37,7 @@ export const UserIdLabel = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  padding: 6px;
   font-family: "Lora", serif;
 `;
 
@@ -45,50 +45,20 @@ export const KeyThumbprint = styled.div`
   display: flex;
   align-items: center;
   justify-content: left;
+  padding: 6px;
   font-family: "Lato", sans-serif;
 `;
 
 export const KeyTypeLabel = styled.div`
   margin: 0.25rem 0 0.25rem 1rem;
-  padding: 0.1rem;
+  padding: 6px;
   color: #c2cfd6;
   font-family: "Lato", sans-serif;
   font-size: 1.1rem;
 `;
 
-const getDisplayFingerprint = (fingerprint: string): string =>
-  fingerprint.substring(fingerprint.length - 8, fingerprint.length);
-
-const PrivateKeysList = ({ privateKeys, selectKey }: PrivateKeysListProps) => {
-  return (
-    <>
-      <KeysListLegend />
-      <List>
-        {privateKeys.map((privateKey: PrivateKey, i: number) => (
-          <ListItem
-            animate={{ opacity: [0, 1], x: [-50, 0] }}
-            key={privateKey.fingerprint}
-            onClick={() => selectKey(privateKey.fingerprint, true)}
-            style={{ background: privateKey.color }}
-            transition={{
-              duration: Math.min(0.25 + 0.1 * i, 0.8),
-              ease: "easeOut",
-            }}
-          >
-            <TextContainer>
-              <UserIdLabel>
-                {applyEllipsis(displayKeyName(privateKey), 36)}
-              </UserIdLabel>
-              <KeyThumbprint>
-                {getDisplayFingerprint(privateKey.fingerprint)}
-              </KeyThumbprint>
-              <KeyTypeLabel>{privateKey.keyType.toUpperCase()}</KeyTypeLabel>
-            </TextContainer>
-          </ListItem>
-        ))}
-      </List>
-    </>
-  );
-};
+const PrivateKeysList = ({ privateKeys, selectKey }: PrivateKeysListProps) => (
+  <KeysList fillBackground isPrivate keys={privateKeys} selectKey={selectKey} />
+);
 
 export default PrivateKeysList;

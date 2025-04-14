@@ -7,7 +7,7 @@ import ViewPublicKeyBtn from "./ViewPublicKeyBtn";
 
 type PublicKeyDetailsProps = {
   currentKey: PrivateKey;
-  setErrorText: (value: string) => void;
+  setErrorText: Function;
 };
 
 const Container = styled.section`

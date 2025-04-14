@@ -1,6 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Button, SvgSpan, TextSpan } from "../Keyring/GenerateKeyBtn";
+import Button from "../Main/Button";
 
 type DeleteKeyBtnProps = {
   showModal: Function;
@@ -8,22 +7,13 @@ type DeleteKeyBtnProps = {
 
 const DeleteKeyBtn = ({ showModal }: DeleteKeyBtnProps) => (
   <Button
+    backgroundColor="hsl(354, 93%, 22%)"
+    borderColor="hsl(354, 93%, 22%)"
+    icon={faTrash}
     onClick={() => showModal()}
-    style={{
-      background: "hsl(354, 93%, 22%)",
-      border: "1px solid hsl(354, 93%, 22%)",
-      maxWidth: "320px",
-    }}
-  >
-    <SvgSpan>
-      <FontAwesomeIcon
-        icon={faTrash}
-        width="16px"
-        style={{ transform: "translateY(0.1rem)" }}
-      />
-    </SvgSpan>
-    <TextSpan>Delete key</TextSpan>
-  </Button>
+    style={{ maxWidth: "320px" }}
+    text="Delete key"
+  />
 );
 
 export default DeleteKeyBtn;

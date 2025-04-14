@@ -1,22 +1,12 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedo } from "@fortawesome/free-solid-svg-icons";
-import { Button, SvgSpan, TextSpan } from "./GenerateKeyBtn";
+import Button from "../Main/Button";
 
 type RefreshKeysBtnProps = {
   refreshKeys: Function;
 };
 
 const RefreshKeysBtn = ({ refreshKeys }: RefreshKeysBtnProps) => (
-  <Button onClick={() => refreshKeys()}>
-    <SvgSpan>
-      <FontAwesomeIcon
-        icon={faRedo}
-        size="lg"
-        width="16px"
-      />
-    </SvgSpan>
-    <TextSpan>Refresh</TextSpan>
-  </Button>
+  <Button icon={faRedo} onClick={() => refreshKeys()} text="Refresh" />
 );
 
 export default RefreshKeysBtn;

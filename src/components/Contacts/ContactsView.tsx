@@ -23,7 +23,7 @@ const BtnBar = styled.div`
 const renderContent = (
   loading: boolean,
   publicKeys: PublicKey[],
-  selectKey: Function
+  selectKey: Function,
 ) => {
   if (loading) {
     return <LoadingIndicator />;
@@ -38,7 +38,7 @@ const ContactsView = ({
   publicKeys,
   refreshContacts,
   selectKey,
-  setView
+  setView,
 }: ContactsViewProps) => {
   const [loading, setLoading] = useState(false);
   const refreshHandler = () => {
@@ -50,7 +50,7 @@ const ContactsView = ({
     <section>
       <SectionCard>
         <BtnBar>
-          <AddContactBtn setView={setView} text="New" />
+          <AddContactBtn setView={setView} />
           <RefreshKeysBtn refreshKeys={refreshHandler} />
         </BtnBar>
         {renderContent(loading, publicKeys, selectKey)}

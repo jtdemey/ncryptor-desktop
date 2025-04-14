@@ -1,27 +1,17 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { AppViews } from "../../data/AppViews";
-import { Button, SvgSpan, TextSpan } from "../Keyring/GenerateKeyBtn";
+import Button from "../Main/Button";
 
 type AddContactBtnProps = {
   setView: Function;
-  text?: string;
 };
 
-const AddContactBtn = ({
-  setView,
-  text
-}: AddContactBtnProps) => (
-  <Button onClick={() => setView(AppViews.CreateContact)}>
-    <SvgSpan>
-      <FontAwesomeIcon
-        icon={faPlus}
-        size="lg"
-        width="16px"
-      />
-    </SvgSpan>
-    <TextSpan>{text || "New"}</TextSpan>
-  </Button>
+const AddContactBtn = ({ setView }: AddContactBtnProps) => (
+  <Button
+    icon={faPlus}
+    onClick={() => setView(AppViews.CreateContact)}
+    text="New"
+  />
 );
 
 export default AddContactBtn;

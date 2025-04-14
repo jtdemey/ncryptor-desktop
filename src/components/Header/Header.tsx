@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Banner = styled.div`
   width: 100%;
   font-family: "Lato", sans-serif;
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   color: #cad2c5;
 `;
 
