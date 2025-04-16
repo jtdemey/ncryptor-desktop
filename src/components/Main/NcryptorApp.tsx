@@ -31,7 +31,8 @@ import { displayKeyName } from "../../utils/StringFormatters";
 */
 
 export type UserId = {
-  email: string;
+  comment?: string;
+  email?: string;
   name: string;
 };
 

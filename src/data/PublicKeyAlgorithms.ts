@@ -38,6 +38,7 @@ export const PublicKeyAlgorithms: { [key: string]: string } = {
   "19": "Reserved for ECDSA",
   "20": "Reserved (formerly Elgamal Encrypt or Sign)",
   "21": "Reserved for Diffie-Hellman (X9.42, as defined for IETF-S/MIME)",
+  "22": "EdDSA",
   "100": PRIVATE_EXPERIMENTAL_ALGORITHM,
   "101": PRIVATE_EXPERIMENTAL_ALGORITHM,
   "102": PRIVATE_EXPERIMENTAL_ALGORITHM,
@@ -47,5 +48,5 @@ export const PublicKeyAlgorithms: { [key: string]: string } = {
   "106": PRIVATE_EXPERIMENTAL_ALGORITHM,
   "107": PRIVATE_EXPERIMENTAL_ALGORITHM,
   "108": PRIVATE_EXPERIMENTAL_ALGORITHM,
-  "109": PRIVATE_EXPERIMENTAL_ALGORITHM
+  "109": PRIVATE_EXPERIMENTAL_ALGORITHM,
 };

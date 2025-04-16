@@ -1,4 +1,8 @@
-import { PrivateKey, PublicKey } from "../components/Main/NcryptorApp";
+import type {
+  PrivateKey,
+  PublicKey,
+  UserId,
+} from "../components/Main/NcryptorApp";
 import { KeyTypes } from "../data/KeyTypes";
 import { KeypairColors } from "../data/KeypairColors";
 
@@ -28,16 +32,42 @@ const addKeyFromRow = (
   });
 };
 
+/**
+ * Get a UserId from a raw uid row
+ * @param {string} rawUserId - Output row from "gpg -k/-K --with-colons" prefixed "uid"
+ * @returns {UserId} User ID object
+ */
+const parseUserId = (rawUserId: string): UserId => {
+  const result: UserId = {
+    name: rawUserId,
+  };
+  if (rawUserId.includes("<")) {
+    result.email = rawUserId.substring(
+      rawUserId.indexOf("<"),
+      rawUserId.indexOf(">"),
+    );
+    result.name = rawUserId.split("<")[0];
+  }
+
+  if (rawUserId.includes("(")) {
+    result.comment = rawUserId.substring(
+      rawUserId.indexOf("("),
+      rawUserId.indexOf(")"),
+    );
+  }
+  return result;
+};
+
 export const parseRow = (
   delimitedRow: string[],
   keysToCreate: (PrivateKey | PublicKey)[],
 ): void => {
-  const recognizedKeyTypes = Object.keys(KeyTypes);
   const parentKeys = keysToCreate.filter(
     key => key.keyType === KeyTypes.pub || key.keyType === KeyTypes.sec,
   );
   const currentParentKey = parentKeys[parentKeys.length - 1];
 
+  const recognizedKeyTypes = Object.keys(KeyTypes);
   if (recognizedKeyTypes.includes(delimitedRow[0])) {
     addKeyFromRow(keysToCreate, delimitedRow, currentParentKey);
   }
@@ -48,11 +78,7 @@ export const parseRow = (
   }
 
   if (delimitedRow[0] === "uid") {
-    if (delimitedRow[9].indexOf("<") === -1) return;
-    currentKey.userIds.push({
-      email: delimitedRow[9].replace(">", "").split("<")[1],
-      name: delimitedRow[9].split("<")[0],
-    });
+    currentKey.userIds.push(parseUserId(delimitedRow[9]));
   }
 };
 

@@ -70,6 +70,7 @@ const KeyDetailsView = ({
   setView,
 }: KeyDetailsViewProps) => {
   const [showingModal, setShowingModal] = useState(false);
+  console.log(currentKey);
   return (
     <Container>
       <ConfirmDeleteModal
