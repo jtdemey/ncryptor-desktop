@@ -14,6 +14,7 @@ const Container = styled.section`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(212px, 1fr));
   gap: 16px;
+  margin: -24px 0px 32px;
   color: #cad2c5;
   font-family: "Lato", sans-serif;
   font-size: 1.25rem;

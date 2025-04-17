@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { parseKeyList } from "./KeyListParser";
+import { parseKeyList, parseUserId } from "./KeyListParser";
 import { PrivateKey, PublicKey } from "../components/Main/NcryptorApp";
 import { KeyTypes } from "../data/KeyTypes";
 
@@ -146,7 +146,7 @@ describe("Handles valid gpg output", () => {
     ];
     const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT);
     const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
-    privateKeysResult.forEach((privateKey) => {
+    privateKeysResult.forEach(privateKey => {
       expect(privateKey.validity).toBe("u");
     });
     for (let i = 0; i < publicKeysResult.length; i++) {
@@ -154,7 +154,7 @@ describe("Handles valid gpg output", () => {
     }
   });
 
-  test("Subkeys should get parent's userIds", () => {
+  test("Subkeys should get parent's fingerprints", () => {
     const privateKeysResult = parseKeyList(PRIVATE_KEYS_OUTPUT);
     const publicKeysResult = parseKeyList(PUBLIC_KEYS_OUTPUT);
     let currentPrivateKey: PrivateKey;
@@ -163,7 +163,9 @@ describe("Handles valid gpg output", () => {
         currentPrivateKey = privateKey;
         return;
       }
-      expect(privateKey.parentKeyFingerprint).toBe(currentPrivateKey.fingerprint);
+      expect(privateKey.parentKeyFingerprint).toBe(
+        currentPrivateKey.fingerprint,
+      );
     });
     let currentPublicKey: any;
     publicKeysResult.forEach(publicKey => {
@@ -173,5 +175,15 @@ describe("Handles valid gpg output", () => {
       }
       expect(publicKey.parentKeyFingerprint).toBe(currentPublicKey.fingerprint);
     });
+  });
+
+  test("'uid' rows should parse into UserIds", () => {
+    const uidRow =
+      "uid:u::::1703455309::DFEC797146BFC504C0AC1D887ACE1C459A128622::D'Jasper Probincrux III (D'Jasper Probincrux III) <djasperprobincruxiii@djasperprobincruxiii.com>::::::::::0:";
+    const delimitedRow = uidRow.split(":");
+    const result = parseUserId(delimitedRow[9]);
+    expect(result.comment).toBe("D'Jasper Probincrux III");
+    expect(result.name).toBe("D'Jasper Probincrux III");
+    expect(result.email).toBe("djasperprobincruxiii@djasperprobincruxiii.com");
   });
 });

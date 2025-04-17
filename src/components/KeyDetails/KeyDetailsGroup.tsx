@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import KeyPropertyLabel from "./KeyPropertyLabel";
 import KeyPropertyValue from "./KeyPropertyValue";
 
@@ -9,14 +10,20 @@ type KeyDetailsGroupProps = {
   valueText: string;
 };
 
+const Container = styled.article`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+`;
+
 const KeyDetailsGroup = ({
   animationDelay,
   color,
   labelText,
   showCopyBtn,
-  valueText
+  valueText,
 }: KeyDetailsGroupProps) => (
-  <article>
+  <Container>
     <KeyPropertyLabel text={labelText} />
     <KeyPropertyValue
       animationDelay={animationDelay ?? 0}
@@ -24,7 +31,7 @@ const KeyDetailsGroup = ({
       showCopyBtn={showCopyBtn}
       text={valueText}
     />
-  </article>
+  </Container>
 );
 
 export default KeyDetailsGroup;

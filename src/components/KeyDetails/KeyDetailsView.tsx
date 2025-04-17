@@ -1,17 +1,18 @@
 import { useState } from "react";
 import styled from "styled-components";
+import type { PrivateKey, PublicKey, UserId } from "../Main/NcryptorApp";
 import BackBtn from "../Main/BackBtn";
 import ConfirmDeleteModal from "./ConfirmDeleteModal";
 import DeleteKeyBtn from "./DeleteKeyBtn";
 import KeyDetailsGroup from "./KeyDetailsGroup";
 import KeyHeader from "./KeyHeader";
+import PublicKeyDetails from "./PublicKeyDetails";
 import SectionCard from "../Main/SectionCard";
 import { AppViews } from "../../data/AppViews";
-import { PrivateKey } from "../Main/NcryptorApp";
 import { displayKeyName } from "../../utils/StringFormatters";
 import { deletePrivateKey } from "../../services/deletePrivateKey";
 import { deletePublicKey } from "../../services/deletePublicKey";
-import PublicKeyDetails from "./PublicKeyDetails";
+import { PublicKeyAlgorithms } from "../../data/PublicKeyAlgorithms";
 
 type KeyDetailsViewProps = {
   currentKey: PrivateKey;
@@ -59,8 +60,44 @@ const Container = styled.section`
 `;
 
 const DetailsContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0px 64px;
   transform: translateY(-1.5rem);
 `;
+
+interface UserIdDetailsProps {
+  currentKey: PrivateKey | PublicKey;
+  userId: UserId;
+  i: number;
+}
+
+const UserIdDetails = ({ currentKey, userId, i }: UserIdDetailsProps) => (
+  <>
+    <KeyDetailsGroup
+      color={currentKey.color}
+      labelText="User ID"
+      showCopyBtn={true}
+      valueText={displayKeyName(currentKey, i)}
+    />
+    {userId.email && (
+      <KeyDetailsGroup
+        color={currentKey.color}
+        labelText="Email"
+        showCopyBtn={true}
+        valueText={userId.email}
+      />
+    )}
+    {userId.comment && (
+      <KeyDetailsGroup
+        color={currentKey.color}
+        labelText="Comment"
+        showCopyBtn={true}
+        valueText={userId.comment}
+      />
+    )}
+  </>
+);
 
 const KeyDetailsView = ({
   currentKey,
@@ -70,7 +107,6 @@ const KeyDetailsView = ({
   setView,
 }: KeyDetailsViewProps) => {
   const [showingModal, setShowingModal] = useState(false);
-  console.log(currentKey);
   return (
     <Container>
       <ConfirmDeleteModal
@@ -102,18 +138,17 @@ const KeyDetailsView = ({
           isKeyPrivate={isKeyPrivate}
         />
         <DetailsContainer>
-          <KeyDetailsGroup
-            color={currentKey.color}
-            labelText="User ID"
-            showCopyBtn={true}
-            valueText={displayKeyName(currentKey)}
+          {currentKey.userIds.map((userId, i) => (
+            <UserIdDetails currentKey={currentKey} userId={userId} i={i} />
+          ))}
+        </DetailsContainer>
+        {!isKeyPrivate && (
+          <PublicKeyDetails
+            currentKey={currentKey}
+            setErrorText={setErrorText}
           />
-          {!isKeyPrivate && (
-            <PublicKeyDetails
-              currentKey={currentKey}
-              setErrorText={setErrorText}
-            />
-          )}
+        )}
+        <DetailsContainer>
           <KeyDetailsGroup
             animationDelay={0.05}
             labelText="Capabilities"
@@ -151,8 +186,15 @@ const KeyDetailsView = ({
             labelText="Key type"
             valueText={currentKey.keyType}
           />
-          <DeleteKeyBtn showModal={() => setShowingModal(true)} />
+          <KeyDetailsGroup
+            animationDelay={0.5}
+            labelText="Algorithm"
+            valueText={
+              PublicKeyAlgorithms[currentKey.publicKeyAlgorithm] ?? "Unknown"
+            }
+          />
         </DetailsContainer>
+        <DeleteKeyBtn showModal={() => setShowingModal(true)} />
       </SectionCard>
     </Container>
   );

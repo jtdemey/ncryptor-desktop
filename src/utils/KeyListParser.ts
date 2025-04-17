@@ -37,25 +37,27 @@ const addKeyFromRow = (
  * @param {string} rawUserId - Output row from "gpg -k/-K --with-colons" prefixed "uid"
  * @returns {UserId} User ID object
  */
-const parseUserId = (rawUserId: string): UserId => {
-  const result: UserId = {
-    name: rawUserId,
-  };
+export const parseUserId = (rawUserId: string): UserId => {
+  let name = rawUserId;
+  let email: string | undefined = undefined;
+  let comment: string | undefined = undefined;
   if (rawUserId.includes("<")) {
-    result.email = rawUserId.substring(
-      rawUserId.indexOf("<"),
-      rawUserId.indexOf(">"),
-    );
-    result.name = rawUserId.split("<")[0];
+    const start = rawUserId.indexOf("<");
+    const end = rawUserId.indexOf(">");
+    email = rawUserId.substring(start + 1, end);
+    name = name.substring(0, start) + name.substring(end + 1, name.length);
   }
-
   if (rawUserId.includes("(")) {
-    result.comment = rawUserId.substring(
-      rawUserId.indexOf("("),
-      rawUserId.indexOf(")"),
-    );
+    const start = rawUserId.indexOf("(");
+    const end = rawUserId.indexOf(")");
+    comment = rawUserId.substring(start + 1, end);
+    name = name.substring(0, start) + name.substring(end + 1, name.length);
   }
-  return result;
+  return {
+    name: name.trim(),
+    email,
+    comment,
+  };
 };
 
 export const parseRow = (
