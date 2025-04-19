@@ -59,7 +59,7 @@ const Button = ({
           <FontAwesomeIcon
             icon={icon}
             width="16px"
-            style={{ transform: "translateY(0.1rem)" }}
+            style={{ transform: "translateY(-1px)" }}
           />
         </SvgSpan>
       )}

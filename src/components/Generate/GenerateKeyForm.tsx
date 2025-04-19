@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Dropdown from "../Form/Dropdown";
-import RadioBtnGroup from "../Form/RadioBtnGroup";
-import TextInput from "../Form/TextInput";
+import AdvancedOptionsDrawer from "./AdvancedOptionsDrawer";
 import BackBtn from "../Main/BackBtn";
 import CancelCreateBtn from "./CancelCreateBtn";
+import Dropdown from "../Form/Dropdown";
 import GenerateKeySubmitBtn from "./GenerateKeySubmitBtn";
+import RadioBtnGroup from "../Form/RadioBtnGroup";
+import TextInput from "../Form/TextInput";
+import ValidationErrorArea from "../Form/ValidationErrorArea";
 import { AppViews } from "../../data/AppViews";
 import { sanitizeEmail, sanitizeInput } from "../../utils/StringSanitizer";
-import ValidationErrorArea from "../Form/ValidationErrorArea";
 
 type GenerateKeyFormProps = {
   refreshKeys: Function;
@@ -70,11 +71,21 @@ const GenerateKeyForm = ({
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
 
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState("rsa4096");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState("ed25519");
   const [selectedDate, setSelectedDate] = useState("never");
   const initialErrors: string[] = [];
   const [validationErrors, setValidationErrors] = useState(initialErrors);
   const radioSelections = ["1m", "2m", "6m", "1y", "never", "custom"];
+
+  // Advanced options
+  const [capabilities, setCapabilities] = useState([
+    "cert",
+    "auth",
+    "encr",
+    "sign",
+  ]);
+  console.log(capabilities);
+  const [subkeys, setSubkeys] = useState<string[]>([]);
 
   return (
     <Container>
@@ -126,6 +137,12 @@ const GenerateKeyForm = ({
         selections={radioSelections}
         selectedValue={selectedDate}
         selectValue={setSelectedDate}
+      />
+      <AdvancedOptionsDrawer
+        capabilities={capabilities}
+        setCapabilities={setCapabilities}
+        setSubkeys={setSubkeys}
+        subkeys={subkeys}
       />
       <BtnBar>
         <GenerateKeySubmitBtn

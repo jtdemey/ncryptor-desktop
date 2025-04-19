@@ -6,8 +6,8 @@ import { generateKeypair } from "../../services/generateKeypair";
 
 type GenerateKeySubmitBtnProps = {
   algorithm: string;
-	comment: string;
-	email: string;
+  comment: string;
+  email: string;
   expirationDate: string;
   userId: string;
   refreshKeys: Function;
@@ -32,13 +32,13 @@ export const Button = styled.div`
 `;
 
 const dateRegex = new RegExp(
-  /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
+  /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/,
 );
 
 const validateInput = (
   algorithm: string,
   expirationDate: string,
-  userId: string
+  userId: string,
 ): string[] => {
   const validationErrors: string[] = [];
   if (!userId) {
@@ -59,16 +59,31 @@ const validateInput = (
   return validationErrors;
 };
 
+const findKeyFingerprint = (keyGenerationOutput: string): string | null => {
+  let result: string | null = null;
+  const lines = keyGenerationOutput.split("\n");
+  lines.forEach(line => {
+    const target = "Key fingerprint =";
+    const maybeIndex = line.indexOf(target);
+    if (maybeIndex === -1) {
+      return;
+    }
+
+    result = line.substring(maybeIndex + target.length).replace(/\s/g, "");
+  });
+  return result;
+};
+
 const GenerateKeySubmitBtn = ({
   algorithm,
-	comment,
-	email,
+  comment,
+  email,
   expirationDate,
   userId,
   refreshKeys,
   setErrorText,
   setValidationErrors,
-  setView
+  setView,
 }: GenerateKeySubmitBtnProps) => {
   const [loading, setLoading] = React.useState(false);
   const clickFunc = () => {
@@ -78,14 +93,16 @@ const GenerateKeySubmitBtn = ({
       return;
     }
     setLoading(true);
-    generateKeypair(userId, email, comment, algorithm, expirationDate)
-      .then((response: any) => {
+    generateKeypair(userId, email, comment, algorithm, expirationDate).then(
+      (response: any) => {
+        const fingerprint = findKeyFingerprint(response);
         setLoading(false);
         if (handleGpgError(response, setErrorText)) {
           setView(AppViews.Keyring);
           refreshKeys();
         }
-      });
+      },
+    );
   };
   return (
     <Button onClick={() => clickFunc()}>{loading ? "..." : "Generate"}</Button>

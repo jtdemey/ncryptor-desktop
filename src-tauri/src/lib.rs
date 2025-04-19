@@ -120,11 +120,12 @@ fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String 
             "--quick-gen-key",
             &user_id,
             algorithm,
-            "auth,encr,sign",
+            "cert,auth,encr,sign",
             expiration,
         ])
         .output()
         .expect("failed to generate key");
+
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
 
