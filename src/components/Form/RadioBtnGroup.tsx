@@ -49,14 +49,14 @@ const Input = styled(motion.input)`
 `;
 
 const dateRegex = new RegExp(
-  /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/
+  /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/,
 );
 
 const RadioBtnGroup = ({
   label,
   selections,
   selectedValue,
-  selectValue
+  selectValue,
 }: RadioBtnGroupProps) => {
   return (
     <>

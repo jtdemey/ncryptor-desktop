@@ -8,12 +8,14 @@ type GenerateKeySubmitBtnProps = {
   algorithm: string;
   comment: string;
   email: string;
+  capabilities: string;
   expirationDate: string;
   userId: string;
   refreshKeys: Function;
   setErrorText: Function;
   setValidationErrors: Function;
   setView: Function;
+  subkeys: string[];
 };
 
 export const Button = styled.div`
@@ -78,12 +80,14 @@ const GenerateKeySubmitBtn = ({
   algorithm,
   comment,
   email,
+  capabilities,
   expirationDate,
   userId,
   refreshKeys,
   setErrorText,
   setValidationErrors,
   setView,
+  subkeys,
 }: GenerateKeySubmitBtnProps) => {
   const [loading, setLoading] = React.useState(false);
   const clickFunc = () => {
@@ -93,16 +97,25 @@ const GenerateKeySubmitBtn = ({
       return;
     }
     setLoading(true);
-    generateKeypair(userId, email, comment, algorithm, expirationDate).then(
-      (response: any) => {
+    generateKeypair(
+      userId,
+      email,
+      comment,
+      algorithm,
+      capabilities,
+      expirationDate,
+    ).then((response: any) => {
+      console.log(response);
+      if (subkeys.length > 0) {
         const fingerprint = findKeyFingerprint(response);
+      } else {
         setLoading(false);
         if (handleGpgError(response, setErrorText)) {
           setView(AppViews.Keyring);
           refreshKeys();
         }
-      },
-    );
+      }
+    });
   };
   return (
     <Button onClick={() => clickFunc()}>{loading ? "..." : "Generate"}</Button>

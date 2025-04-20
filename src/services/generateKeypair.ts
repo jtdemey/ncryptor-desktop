@@ -20,10 +20,12 @@ export const generateKeypair = async (
   email: string,
   comment: string,
   algorithm: string,
+  capabilities: string,
   expiration: string,
 ): Promise<string> =>
-  await invokeTauriCommand("generate_keypair", {
+  invokeTauriCommand("generate_keypair", {
     algorithm,
+    capabilities,
     expiration,
     userId: constructUserId(userId, email, comment),
   }).catch((error: any) => console.error(error));

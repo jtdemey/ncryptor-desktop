@@ -89,7 +89,7 @@ const KeysList = ({
   selectKey,
 }: KeysListProps) => {
   const canEncrypt = (gpgKey: PrivateKey | PublicKey) =>
-    gpgKey.capabilities.includes("e") || gpgKey.capabilities.includes("E");
+    gpgKey.capabilities.includes("e");
   return (
     <ListContainer>
       <KeysListLegend />

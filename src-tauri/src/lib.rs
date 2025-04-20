@@ -114,17 +114,43 @@ fn encrypt(sender: &str, recipient: &str, text: &str) -> String {
 }
 
 #[tauri::command]
-fn generate_keypair(algorithm: &str, expiration: &str, user_id: &str) -> String {
+fn generate_keypair(
+    algorithm: &str,
+    capabilities: &str,
+    expiration: &str,
+    user_id: &str,
+) -> String {
     let output = Command::new("gpg")
         .args([
             "--quick-gen-key",
             &user_id,
             algorithm,
-            "cert,auth,encr,sign",
+            capabilities,
             expiration,
         ])
         .output()
         .expect("failed to generate key");
+
+    return format!("{}", String::from_utf8_lossy(&output.stdout));
+}
+
+#[tauri::command]
+fn generate_subkey(
+    parent_fingerprint: &str,
+    algorithm: &str,
+    capabilities: &str,
+    expiration: &str,
+) -> String {
+    let output = Command::new("gpg")
+        .args([
+            "--quick-add-key",
+            parent_fingerprint,
+            algorithm,
+            capabilities,
+            expiration,
+        ])
+        .output()
+        .expect("failed to generate subkey");
 
     return format!("{}", String::from_utf8_lossy(&output.stdout));
 }
@@ -175,6 +201,7 @@ pub fn run() {
             delete_public_key,
             encrypt,
             generate_keypair,
+            generate_subkey,
             get_gpg_version,
             get_private_keys,
             get_public_keys,

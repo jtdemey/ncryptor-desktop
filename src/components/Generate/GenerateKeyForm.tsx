@@ -30,19 +30,6 @@ export const Header = styled.h2`
   text-align: center;
 `;
 
-export const Notice = styled.article`
-  margin: 0 auto 1.5rem;
-  padding: 8px;
-  background: #52796f;
-  border-radius: 8px;
-  color: #cad2c5;
-  font-family: "Lato", sans-serif;
-  font-size: 1.1rem;
-  & > a {
-    color: #00e600;
-  }
-`;
-
 export const BtnBar = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -61,6 +48,7 @@ const GenerateKeyForm = ({
   setView,
 }: GenerateKeyFormProps) => {
   const initialOptions: [string, string][] = [
+    ds("ed25519"),
     ds("rsa4096"),
     ds("rsa2048"),
     ds("rsa1024"),
@@ -78,25 +66,24 @@ const GenerateKeyForm = ({
   const radioSelections = ["1m", "2m", "6m", "1y", "never", "custom"];
 
   // Advanced options
-  const [capabilities, setCapabilities] = useState([
-    "cert",
-    "auth",
-    "encr",
-    "sign",
-  ]);
-  console.log(capabilities);
-  const [subkeys, setSubkeys] = useState<string[]>([]);
+  const [capabilities, setCapabilities] = useState(["cert"]);
+  const [subkeys, setSubkeys] = useState<string[]>(["auth", "encr", "sign"]);
+
+  const onAlgorithmSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selection = e.toString();
+    setSelectedAlgorithm(selection);
+
+    // ED25519 keys must have a CV25519 encryption subkey
+    if (selection === "ed25519") {
+      setCapabilities(capabilities.filter(c => c !== "encr"));
+    }
+  };
 
   return (
     <Container>
       <BackBtn clickFunc={() => setView(AppViews.Keyring)} />
       <Header>Create a new keypair</Header>
       <ValidationErrorArea errors={validationErrors} />
-      <Notice>
-        Are you creating a personal key? RSA will be deprecated in 2030. ED25519
-        is a modern alternative. <em>Ncryptor</em> supports usage of ED25519,
-        but generating them is coming in a future version.
-      </Notice>
       <TextInput
         autoFocus
         changeHandler={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -127,9 +114,9 @@ const GenerateKeyForm = ({
         selections={dropdownOptions}
         label="Algorithm"
         setValue={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          setSelectedAlgorithm(e.toString())
+          onAlgorithmSelect(e)
         }
-        subLabel="(recommended: rsa4096)"
+        subLabel="(recommended: ed25519)"
         selectedValue={selectedAlgorithm}
       />
       <RadioBtnGroup
@@ -140,6 +127,7 @@ const GenerateKeyForm = ({
       />
       <AdvancedOptionsDrawer
         capabilities={capabilities}
+        selectedAlgorithm={selectedAlgorithm}
         setCapabilities={setCapabilities}
         setSubkeys={setSubkeys}
         subkeys={subkeys}
@@ -149,12 +137,14 @@ const GenerateKeyForm = ({
           algorithm={selectedAlgorithm}
           comment={comment}
           email={email}
+          capabilities={capabilities.join(",")}
           expirationDate={selectedDate}
           userId={userId}
           refreshKeys={refreshKeys}
           setErrorText={setErrorText}
           setValidationErrors={setValidationErrors}
           setView={setView}
+          subkeys={subkeys}
         />
         <CancelCreateBtn clickFunc={() => setView(AppViews.Keyring)} />
       </BtnBar>
