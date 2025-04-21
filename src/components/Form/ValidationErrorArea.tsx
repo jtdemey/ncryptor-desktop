@@ -6,6 +6,12 @@ type ValidationErrorAreaProps = {
 
 const Container = styled.div`
   margin: 1rem auto;
+  background: hsl(22, 98%, 35%);
+  border-color: hsl(22, 98%, 55%);
+  border-style: solid;
+  border-width: 0px;
+  border-radius: 2px;
+  box-shadow: -3px 3px 8px #222;
 `;
 
 const ErrorLine = styled.h5`
@@ -15,10 +21,8 @@ const ErrorLine = styled.h5`
   font-size: 1.25rem;
 `;
 
-const ValidationErrorArea = ({
-  errors
-}: ValidationErrorAreaProps) => (
-  <Container style={{ border: errors.length > 0 ? "2px solid #7e1b1b" : "none" }}>
+const ValidationErrorArea = ({ errors }: ValidationErrorAreaProps) => (
+  <Container style={{ borderWidth: errors.length > 0 ? "4px" : "0px" }}>
     {errors.map(err => (
       <ErrorLine key={err}>{err}</ErrorLine>
     ))}

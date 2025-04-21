@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { handleGpgError } from "../../client/ErrorHandlers";
 import { AppViews } from "../../data/AppViews";
 import { generateKeypair } from "../../services/generateKeypair";
+import { generateSubkey } from "../../services/generateSubkey";
 
 type GenerateKeySubmitBtnProps = {
   algorithm: string;
@@ -105,15 +106,33 @@ const GenerateKeySubmitBtn = ({
       capabilities,
       expirationDate,
     ).then((response: any) => {
-      console.log(response);
-      if (subkeys.length > 0) {
-        const fingerprint = findKeyFingerprint(response);
-      } else {
+      const navigateAway = () => {
         setLoading(false);
         if (handleGpgError(response, setErrorText)) {
           setView(AppViews.Keyring);
           refreshKeys();
         }
+      };
+      if (subkeys.length > 0) {
+        const fingerprint = findKeyFingerprint(response);
+        if (!fingerprint) {
+          setValidationErrors([
+            "Created main key, but subkey creation failed (unabled to parse created key's fingerprint).",
+          ]);
+          return;
+        }
+        Promise.all(
+          subkeys.map(capability =>
+            generateSubkey(fingerprint, algorithm, capability, expirationDate),
+          ),
+        )
+          .catch(err => {
+            setValidationErrors([err]);
+            return;
+          })
+          .then(() => navigateAway());
+      } else {
+        navigateAway();
       }
     });
   };
