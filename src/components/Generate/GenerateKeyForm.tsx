@@ -73,6 +73,12 @@ const GenerateKeyForm = ({
     const selection = e.toString();
     setSelectedAlgorithm(selection);
 
+    // Default RSA keys to no subkeys for simplicity's sake
+    if (selection.includes("rsa")) {
+      setSubkeys([]);
+      setCapabilities(["auth", "cert", "encr", "sign"]);
+    }
+
     // ED25519 keys must have a CV25519 encryption subkey
     if (selection === "ed25519") {
       setCapabilities(capabilities.filter(c => c !== "encr"));

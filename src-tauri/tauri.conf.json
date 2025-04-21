@@ -18,7 +18,7 @@
   },
   "productName": "ncryptor",
   "mainBinaryName": "ncryptor",
-  "version": "1.0.0",
+  "version": "0.7.0",
   "identifier": "com.jt.ncryptor",
   "plugins": {},
   "app": {

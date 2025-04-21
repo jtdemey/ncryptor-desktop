@@ -1,8 +1,8 @@
 import { motion } from "framer-motion";
 import styled from "styled-components";
-import { getGpgVersion } from "../../services/getGpgVersion";
 import SectionCard from "../Main/SectionCard";
 import useCommandResult from "../../hooks/useCommandResult";
+import { getGpgVersion } from "../../services/getGpgVersion";
 
 const Container = styled.section`
   padding: 0 1rem;
@@ -31,7 +31,7 @@ const Text = styled(motion.article)`
 
 const animationProps = {
   animate: { opacity: [0, 1], y: [10, 0] },
-  transition: { ease: "easeOut", duration: 0.4 }
+  transition: { ease: "easeOut", duration: 0.4 },
 };
 
 const InfoView = () => {
@@ -40,21 +40,16 @@ const InfoView = () => {
     <Container>
       <SectionCard>
         <MetaBox {...animationProps}>
-          Ncryptor Desktop v1.0
+          Ncryptor Desktop v0.7
           <br />
-          by <a href="https://www.johntorsten.com">John Torsten</a>
-          <br />🄯 2024
+          by <strong>John Torsten</strong>
+          <br />
+          🄯 2024
         </MetaBox>
-        <Text {...animationProps}>
-          {gpgVersionText}
-        </Text>
+        <Text {...animationProps}>{gpgVersionText}</Text>
         <Text {...animationProps}>
           Ncryptor Desktop is a simple frontend used to invoke the{" "}
-          <a href="https://www.gnupg.org">GNU Privacy Guard</a> (gpg). It is{" "}
-          <a href="https://github.com/jtdemey/ncryptor-desktop">
-            open source software
-          </a>
-          .
+          <i>GNU Privacy Guard</i> (gpg). It is free and open source software.
         </Text>
       </SectionCard>
     </Container>

@@ -43,7 +43,7 @@ They can each repeat steps 5-8 each time they want to send a private message ove
 - Encrypt plain text messages or text files to anyone in your contacts
 - Decrypt messages encrypted just for you
 - Browse the PGP keys in your keyring and contacts
-- Generate new RSA keypairs for encryption (ED25519 coming soon)
+- Generate new ED25519 or RSA keypairs for encryption
 - Easily import public PGP keys into your contacts
 - Delete keys (with clear confirmation required)
 
