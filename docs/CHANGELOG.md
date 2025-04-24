@@ -13,11 +13,10 @@
     - Key type
     - Capabilities
     - Ability to view/copy full public keys
-- Generate RSA keypairs
-    - Selectable size: 1024, 2048, and 4096
+- Generate ED25519 and RSA keypairs
+    - Selectable RSA size: 1024, 2048, and 4096
     - Supports comments
     - Supports expiration date
-- Generate ED25519 keypairs
 - Advanced options for subkey creation and capability customization
 - Delete public and private keys with clear confirmation prompt
 - Import public key (Add contact view)
@@ -26,6 +25,12 @@
 (future)
 
 # 0.8
+- Application icon
+- Windows bugs
+    - Hide key list's unscrollable scrollbars
+    - Fix missing copyleft icon
+    - Remove rectangular box shadow around radio buttons
+    - Darken checkbox icons
 - Loading screen during key generation
 - Optional password field for skipping prompt during key generation
 - Sort key list alphabetically after key generation

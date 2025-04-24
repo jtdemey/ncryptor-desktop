@@ -1,6 +1,8 @@
 import React from "react";
 import { motion } from "framer-motion";
 import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 
 type DropdownProps = {
   animationDuration?: number;
@@ -26,13 +28,14 @@ const SubLabel = styled.label`
 `;
 
 const Select = styled(motion.select)`
+  appearance: none;
   width: 100%;
   margin: 0;
   padding: 0.5rem;
   background: #203031;
   border: 1px solid #222;
   box-shadow: -3px 3px 8px #222;
-  color: #0f0f0f;
+  color: #cad2c5;
   font-family: "Lato", sans-serif;
   font-size: 1.1rem;
   outline: none;
@@ -48,6 +51,13 @@ const Select = styled(motion.select)`
   &:after {
     border-radius: 0px;
   }
+`;
+
+const CaretContainer = styled.div`
+  display: inline;
+  position: absolute;
+  color: #cad2c5;
+  transform: translate(-18px, 8px);
 `;
 
 const Dropdown = ({
@@ -70,24 +80,29 @@ const Dropdown = ({
         </Label>
       )}
       {subLabel && <SubLabel>{subLabel || ""}</SubLabel>}
-      <Select
-        animate={{ opacity: [0, 1], x: [-30, 0] }}
-        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-          setValue(e.target.value)
-        }
-        transition={{ duration: animationDuration ?? 0, ease: "easeOut" }}
-        value={selectedValue}
-      >
-        {selections.length > 0 ? (
-          selections.map((pair: string[]) => (
-            <option key={pair[0]} value={pair[1]}>
-              {pair[1]}
-            </option>
-          ))
-        ) : (
-          <option>{noSelectionsText}</option>
-        )}
-      </Select>
+      <div>
+        <Select
+          animate={{ opacity: [0, 1], x: [-30, 0] }}
+          onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+            setValue(e.target.value)
+          }
+          transition={{ duration: animationDuration ?? 0, ease: "easeOut" }}
+          value={selectedValue}
+        >
+          {selections.length > 0 ? (
+            selections.map((pair: string[]) => (
+              <option key={pair[0]} value={pair[1]}>
+                {pair[1]}
+              </option>
+            ))
+          ) : (
+            <option>{noSelectionsText}</option>
+          )}
+        </Select>
+        <CaretContainer>
+          <FontAwesomeIcon icon={faCaretDown} />
+        </CaretContainer>
+      </div>
     </>
   );
 };

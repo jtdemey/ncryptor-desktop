@@ -64,6 +64,7 @@ const DetailsContainer = styled.section`
   flex-wrap: wrap;
   gap: 0px 64px;
   transform: translateY(-1.5rem);
+  width: 100%;
 `;
 
 interface UserIdDetailsProps {

@@ -14,6 +14,8 @@ const Container = styled.article`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  width: 100%;
+  overflow-wrap: break-word;
 `;
 
 const KeyDetailsGroup = ({
