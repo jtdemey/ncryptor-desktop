@@ -46,7 +46,7 @@
 # 1.0
 - Prompt mode: show command input before sending, allow modification
 - Guide: doc explaining how to generate personal keys with higher granularity
-- Info: supported algos
+- Info: supported algorithms
 - Modal: x icon
 
 # 1.1
