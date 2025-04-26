@@ -27,6 +27,11 @@ const SubLabel = styled.label`
   padding-left: 0.5rem;
 `;
 
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 0px;
+`;
+
 const Select = styled(motion.select)`
   appearance: none;
   width: 100%;
@@ -54,9 +59,8 @@ const Select = styled(motion.select)`
 `;
 
 const CaretContainer = styled.div`
-  display: inline;
-  position: absolute;
   color: #cad2c5;
+  float: right;
   transform: translate(-18px, 8px);
 `;
 
@@ -80,7 +84,7 @@ const Dropdown = ({
         </Label>
       )}
       {subLabel && <SubLabel>{subLabel || ""}</SubLabel>}
-      <div>
+      <Container>
         <Select
           animate={{ opacity: [0, 1], x: [-30, 0] }}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -102,7 +106,7 @@ const Dropdown = ({
         <CaretContainer>
           <FontAwesomeIcon icon={faCaretDown} />
         </CaretContainer>
-      </div>
+      </Container>
     </>
   );
 };
